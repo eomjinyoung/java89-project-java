@@ -3,18 +3,39 @@ package bitcamp.java89.ems;
 import java.util.Scanner;
 
 public class StudentController {
-  Student[] students = new Student[100];
-  int length = 0;
-  Scanner keyScan;
+  // 아래 인스턴스 변수들은 외부에서 사용할 일이 없기 때문에
+  // private으로 접근을 제한한다.
+  private Student[] students = new Student[100];
+  private int length = 0;
+  private Scanner keyScan;
 
-  // 기본 생성자가 없다.
-  // 따라서 이 클래스를 사용하려면 반드시 Scanner를 줘야 한다.
-  // => 생성자에서 하는 일은 그 객체를 사용하기 전에 유효 상태로 만드는 것이다.
   public StudentController(Scanner keyScan) {
     this.keyScan = keyScan;
   }
 
-  public void doList() {
+  public void service() {
+    loop:
+    while (true) {
+      System.out.print("학생관리> ");
+      String command = keyScan.nextLine().toLowerCase();
+
+      switch (command) {
+      case "add": this.doAdd(); break;
+      case "list": this.doList(); break;
+      case "view": this.doView(); break;
+      case "delete": this.doDelete(); break;
+      case "update": this.doUpdate(); break;
+      case "main":
+        break loop;
+      default:
+        System.out.println("지원하지 않는 명령어입니다.");
+      }
+    }
+  }
+
+  // 아래 doXXX() 메서드들은 오직 service()에서만 호출하기 때문에
+  // private으로 접근을 제한한다.
+  private void doList() {
     for (int i = 0; i < this.length; i++) {
       Student student = this.students[i];
       System.out.printf("%s,%s,%s,%s,%s,%s,%d,%s\n",
@@ -29,7 +50,7 @@ public class StudentController {
     }
   }
 
-  public void doUpdate() {
+  private void doUpdate() {
     System.out.print("변경할 학생의 아이디는? ");
     String userId = this.keyScan.nextLine().toLowerCase();
     for (int i = 0; i < this.length; i++) {
@@ -72,7 +93,7 @@ public class StudentController {
     System.out.printf("%s 이라는 학생이 없습니다.", userId);
   }
 
-  public void doAdd() {
+  private void doAdd() {
     // 반복 해서 입력 받는다.
     while (length < this.students.length) {
       Student student = new Student();
@@ -108,7 +129,7 @@ public class StudentController {
     }
   }
 
-  public void doView() {
+  private void doView() {
     System.out.print("조회할 학생의 아이디는? ");
     String userId = this.keyScan.nextLine().toLowerCase();
     for (int i = 0; i < this.length; i++) {
@@ -126,7 +147,7 @@ public class StudentController {
     }
   }
 
-  public void doDelete() {
+  private void doDelete() {
     System.out.print("삭제할 학생의 아이디는? ");
     String userId = this.keyScan.nextLine().toLowerCase();
 

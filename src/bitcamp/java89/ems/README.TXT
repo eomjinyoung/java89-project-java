@@ -1,3 +1,24 @@
+[v0.7]
+구현할 기능:
+=> EduApp에 있던 학생관리 명령어 처리를
+   학생관리 전문가인 StudentController로 이전한다.
+=> EduApp은 대신 메뉴 선택 기능을 추가한다.
+
+산출물:
+=> Student.java
+=> EduApp.java (변경)
+=> StudentController.java (변경)
+
+학습목표:
+=> 리팩토링(refactoring)을 통해 명령어 코드를 관련된 클래스로 분류시키기.
+=> 객체지향 설계 방법론 중에서 "응집력 높이기(hign cohesion)"을 이해한다.
+   High Cohesion? 한 클래스는 한 가지 역할에 집중해야 한다.
+   => 한 클래스가 여러 가지 일을 하면 클래스 코드가 커지고, 유지보수에 안좋다.
+=> 메서드나 변수에 대해 접근을 제어하는 방법과 이유를 이해한다.
+  => StudentController의 doXxx() 메서드들을 private 으로 접근을 제한한다.
+  => 이 클래스의 내부 변수들도 private으로 접근을 제한한다.
+
+
 [v0.6]
 구현할 기능:
 => 삭제 기능 추가
