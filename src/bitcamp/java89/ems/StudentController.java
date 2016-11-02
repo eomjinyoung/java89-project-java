@@ -24,8 +24,8 @@ public class StudentController {
       switch (command) {
       case "add": this.doAdd(); break;
       case "list": this.doList(); break;
-      //case "view": this.doView(); break;
-      //case "delete": this.doDelete(); break;
+      case "view": this.doView(); break;
+      case "delete": this.doDelete(); break;
       //case "update": this.doUpdate(); break;
       case "main":
         break loop;
@@ -139,42 +139,56 @@ public class StudentController {
         break;
     }
   }
-  /*
+
   private void doView() {
-    System.out.print("조회할 학생의 아이디는? ");
-    String userId = this.keyScan.nextLine().toLowerCase();
-    for (int i = 0; i < this.length; i++) {
-      if (this.students[i].userId.toLowerCase().equals(userId)) {
-        System.out.printf("아이디: %s\n", this.students[i].userId);
-        System.out.printf("암호: (***)\n");
-        System.out.printf("이름: %s\n", this.students[i].name);
-        System.out.printf("전화: %s\n", this.students[i].tel);
-        System.out.printf("이메일: %s\n", this.students[i].email);
-        System.out.printf("재직중: %s\n", (this.students[i].working) ? "Yes" : "No");
-        System.out.printf("태어난 해: %d\n", this.students[i].birthYear);
-        System.out.printf("학교: %s\n", this.students[i].school);
-        break;
-      }
+    System.out.print("학생의 인덱스? ");
+    int index = Integer.parseInt(this.keyScan.nextLine());
+
+    if (index < 0 || index >= length) {
+      System.out.println("인덱스가 유효하지 않습니다.");
+      return;
     }
+
+    Box currentBox = head;
+    for (int i = 0; i < index; i++) {
+      currentBox = currentBox.next;
+    }
+
+    Student student = (Student)currentBox.value;
+
+    System.out.printf("아이디: %s\n", student.userId);
+    System.out.printf("암호: (***)\n");
+    System.out.printf("이름: %s\n", student.name);
+    System.out.printf("전화: %s\n", student.tel);
+    System.out.printf("이메일: %s\n", student.email);
+    System.out.printf("재직중: %s\n", (student.working) ? "Yes" : "No");
+    System.out.printf("태어난 해: %d\n", student.birthYear);
+    System.out.printf("학교: %s\n", student.school);
   }
 
   private void doDelete() {
-    System.out.print("삭제할 학생의 아이디는? ");
-    String userId = this.keyScan.nextLine().toLowerCase();
+    System.out.print("삭제할 학생의 인덱스? ");
+    int index = Integer.parseInt(keyScan.nextLine());
 
-    for (int i = 0; i < this.length; i++) {
-      if (this.students[i].userId.toLowerCase().equals(userId)) {
-        // 배열의 앞 항목의 값을 현재 항목으로 당겨온다.
-        for (int x = i + 1; x < this.length; x++, i++) {
-          this.students[i] = this.students[x];
-        }
-        this.students[--length] = null;
-
-        System.out.printf("%s 학생 정보를 삭제하였습니다.\n", userId);
-        return; // 함수 실행을 종료한다.
-      }
+    if (index < 0 || index >= length) {
+      System.out.println("인덱스가 유효하지 않습니다.");
+      return;
     }
-    System.out.printf("%s 학생이 없습니다.\n", userId);
+
+    Student deletedStudent = null;
+    if (index == 0) {
+      deletedStudent = (Student)head.value;
+      head = head.next;
+    } else {
+      Box currentBox = head;
+      for (int i = 0; i < (index - 1); i++) {
+        currentBox = currentBox.next;
+      }
+      deletedStudent = (Student)currentBox.next.value;
+      currentBox.next = currentBox.next.next;
+    }
+
+    length--;
+    System.out.printf("%s 학생 정보를 삭제하였습니다.\n", deletedStudent.userId);
   }
-  */
 }
