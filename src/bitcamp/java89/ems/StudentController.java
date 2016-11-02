@@ -3,13 +3,15 @@ package bitcamp.java89.ems;
 import java.util.Scanner;
 
 public class StudentController {
-  // 아래 인스턴스 변수들은 외부에서 사용할 일이 없기 때문에
-  // private으로 접근을 제한한다.
-  private Student[] students = new Student[100];
-  private int length = 0;
+  private Box head;
+  private Box tail;
+  private int length;
   private Scanner keyScan;
 
   public StudentController(Scanner keyScan) {
+    head = new Box();
+    tail = head;
+    length = 0;
     this.keyScan = keyScan;
   }
 
@@ -22,9 +24,9 @@ public class StudentController {
       switch (command) {
       case "add": this.doAdd(); break;
       case "list": this.doList(); break;
-      case "view": this.doView(); break;
-      case "delete": this.doDelete(); break;
-      case "update": this.doUpdate(); break;
+      //case "view": this.doView(); break;
+      //case "delete": this.doDelete(); break;
+      //case "update": this.doUpdate(); break;
       case "main":
         break loop;
       default:
@@ -36,8 +38,9 @@ public class StudentController {
   // 아래 doXXX() 메서드들은 오직 service()에서만 호출하기 때문에
   // private으로 접근을 제한한다.
   private void doList() {
-    for (int i = 0; i < this.length; i++) {
-      Student student = this.students[i];
+    Box currentBox = head;
+    while (currentBox != null && currentBox != tail) {
+      Student student = (Student)currentBox.value;
       System.out.printf("%s,%s,%s,%s,%s,%s,%d,%s\n",
         student.userId,
         student.password,
@@ -47,9 +50,11 @@ public class StudentController {
         ((student.working)?"yes":"no"),
         student.birthYear,
         student.school);
+      currentBox = currentBox.next;
     }
   }
 
+  /*
   private void doUpdate() {
     System.out.print("변경할 학생의 아이디는? ");
     String userId = this.keyScan.nextLine().toLowerCase();
@@ -92,10 +97,10 @@ public class StudentController {
     }
     System.out.printf("%s 이라는 학생이 없습니다.", userId);
   }
-
+  */
   private void doAdd() {
     // 반복 해서 입력 받는다.
-    while (length < this.students.length) {
+    while (true) {
       Student student = new Student();
       System.out.print("아이디(:hong)? ");
       student.userId = this.keyScan.nextLine();
@@ -121,14 +126,20 @@ public class StudentController {
       System.out.print("최종학교(예:비트고등학교)? ");
       student.school = this.keyScan.nextLine();
 
-      this.students[length++] = student;
+      // tail이 가리키는 빈 상자에 Student 인스턴스의 주소를 담는다.
+      // 그리고 새 상자를 만든 다음 현재 상자에 연결한다.
+      // tail은 다시 맨 마지막 빈 상자를 가리킨다.
+      tail.value = student;
+      tail.next = new Box();
+      tail = tail.next;
+      length++;
 
       System.out.print("계속 입력하시겠습니까(y/n)? ");
       if (!this.keyScan.nextLine().equals("y"))
         break;
     }
   }
-
+  /*
   private void doView() {
     System.out.print("조회할 학생의 아이디는? ");
     String userId = this.keyScan.nextLine().toLowerCase();
@@ -165,4 +176,5 @@ public class StudentController {
     }
     System.out.printf("%s 학생이 없습니다.\n", userId);
   }
+  */
 }
