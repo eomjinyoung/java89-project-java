@@ -26,7 +26,7 @@ public class StudentController {
       case "list": this.doList(); break;
       case "view": this.doView(); break;
       case "delete": this.doDelete(); break;
-      //case "update": this.doUpdate(); break;
+      case "update": this.doUpdate(); break;
       case "main":
         break loop;
       default:
@@ -54,50 +54,58 @@ public class StudentController {
     }
   }
 
-  /*
   private void doUpdate() {
-    System.out.print("변경할 학생의 아이디는? ");
-    String userId = this.keyScan.nextLine().toLowerCase();
-    for (int i = 0; i < this.length; i++) {
-      if (this.students[i].userId.toLowerCase().equals(userId)) {
-        Student student = new Student();
+    System.out.print("변경할 학생의 인덱스? ");
+    int index = Integer.parseInt(this.keyScan.nextLine());
 
-        student.userId = this.students[i].userId;
-
-        System.out.print("암호(예:1111)? ");
-        student.password = this.keyScan.nextLine();
-
-        System.out.print("이름(예:홍길동)? ");
-        student.name = this.keyScan.nextLine();
-
-        System.out.print("전화(예:010-1111-2222)? ");
-        student.tel = this.keyScan.nextLine();
-
-        System.out.print("이메일(예:hong@test.com)? ");
-        student.email = this.keyScan.nextLine();
-
-        System.out.print("재직중(y/n)? ");
-        student.working = (this.keyScan.nextLine().equals("y")) ? true : false;
-
-        System.out.print("태어난해(예:1980)? ");
-        student.birthYear = Integer.parseInt(this.keyScan.nextLine());
-
-        System.out.print("최종학교(예:비트고등학교)? ");
-        student.school = this.keyScan.nextLine();
-
-        System.out.print("저장하시겠습니까(y/n)? ");
-        if (keyScan.nextLine().toLowerCase().equals("y")) {
-          this.students[i] = student;
-          System.out.println("저장하였습니다.");
-        } else {
-          System.out.println("변경을 취소하였습니다.");
-        }
-        return;
-      }
+    // 유효한 인덱스인지 검사
+    if (index < 0 || index >= length) {
+      System.out.println("인덱스가 유효하지 않습니다.");
+      return;
     }
-    System.out.printf("%s 이라는 학생이 없습니다.", userId);
+
+    // 변경하려는 학생 정보가 저장된 상자를 찾는다.
+    Box currentBox = head;
+    for (int i = 0; i < index; i++) {
+      currentBox = currentBox.next;
+    }
+
+    // 찾은 상자에서 변경할 학생의 정보를 꺼낸다.
+    Student oldStudent = (Student)currentBox.value;
+
+    // 새 학생 정보를 입력 받는다.
+    Student student = new Student();
+    System.out.print("암호(예:1111)? ");
+    student.password = this.keyScan.nextLine();
+
+    System.out.printf("이름(%s)? ", oldStudent.name);
+    student.name = this.keyScan.nextLine();
+
+    System.out.printf("전화(%s)? ", oldStudent.tel);
+    student.tel = this.keyScan.nextLine();
+
+    System.out.printf("이메일(%s)? ", oldStudent.email);
+    student.email = this.keyScan.nextLine();
+
+    System.out.print("재직중(y/n)? ");
+    student.working = (this.keyScan.nextLine().equals("y")) ? true : false;
+
+    System.out.printf("태어난해(%d)? ", oldStudent.birthYear);
+    student.birthYear = Integer.parseInt(this.keyScan.nextLine());
+
+    System.out.printf("최종학교(%s)? ", oldStudent.school);
+    student.school = this.keyScan.nextLine();
+
+    System.out.print("저장하시겠습니까(y/n)? ");
+    if (keyScan.nextLine().toLowerCase().equals("y")) {
+      student.userId = oldStudent.userId;
+      currentBox.value = student;
+      System.out.println("저장하였습니다.");
+    } else {
+      System.out.println("변경을 취소하였습니다.");
+    }
   }
-  */
+
   private void doAdd() {
     // 반복 해서 입력 받는다.
     while (true) {
