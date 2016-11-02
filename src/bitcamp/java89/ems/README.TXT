@@ -1,6 +1,7 @@
 [v0.8]
 구현할 기능:
 => Linked List 기법을 이용하여 학생, 강사 등의 데이터를 관리한다.
+=> 일단 StudentController만 적용한다.
 
 산출물:
 => Student.java
