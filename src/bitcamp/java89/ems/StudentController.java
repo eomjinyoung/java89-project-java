@@ -3,15 +3,11 @@ package bitcamp.java89.ems;
 import java.util.Scanner;
 
 public class StudentController {
-  private Box head;
-  private Box tail;
-  private int length;
+  private LinkedList list;
   private Scanner keyScan;
 
   public StudentController(Scanner keyScan) {
-    head = new Box();
-    tail = head;
-    length = 0;
+    list = new LinkedList();
     this.keyScan = keyScan;
   }
 
@@ -35,12 +31,9 @@ public class StudentController {
     }
   }
 
-  // 아래 doXXX() 메서드들은 오직 service()에서만 호출하기 때문에
-  // private으로 접근을 제한한다.
   private void doList() {
-    Box currentBox = head;
-    while (currentBox != null && currentBox != tail) {
-      Student student = (Student)currentBox.value;
+    for (int i = 0; i < list.size(); i++) {
+      Student student = (Student)list.get(i);
       System.out.printf("%s,%s,%s,%s,%s,%s,%d,%s\n",
         student.userId,
         student.password,
@@ -50,7 +43,6 @@ public class StudentController {
         ((student.working)?"yes":"no"),
         student.birthYear,
         student.school);
-      currentBox = currentBox.next;
     }
   }
 
@@ -59,19 +51,12 @@ public class StudentController {
     int index = Integer.parseInt(this.keyScan.nextLine());
 
     // 유효한 인덱스인지 검사
-    if (index < 0 || index >= length) {
+    if (index < 0 || index >= list.size()) {
       System.out.println("인덱스가 유효하지 않습니다.");
       return;
     }
 
-    // 변경하려는 학생 정보가 저장된 상자를 찾는다.
-    Box currentBox = head;
-    for (int i = 0; i < index; i++) {
-      currentBox = currentBox.next;
-    }
-
-    // 찾은 상자에서 변경할 학생의 정보를 꺼낸다.
-    Student oldStudent = (Student)currentBox.value;
+    Student oldStudent = (Student)list.get(index);
 
     // 새 학생 정보를 입력 받는다.
     Student student = new Student();
@@ -99,7 +84,7 @@ public class StudentController {
     System.out.print("저장하시겠습니까(y/n)? ");
     if (keyScan.nextLine().toLowerCase().equals("y")) {
       student.userId = oldStudent.userId;
-      currentBox.value = student;
+      list.set(index, student);
       System.out.println("저장하였습니다.");
     } else {
       System.out.println("변경을 취소하였습니다.");
@@ -107,7 +92,6 @@ public class StudentController {
   }
 
   private void doAdd() {
-    // 반복 해서 입력 받는다.
     while (true) {
       Student student = new Student();
       System.out.print("아이디(:hong)? ");
@@ -134,13 +118,7 @@ public class StudentController {
       System.out.print("최종학교(예:비트고등학교)? ");
       student.school = this.keyScan.nextLine();
 
-      // tail이 가리키는 빈 상자에 Student 인스턴스의 주소를 담는다.
-      // 그리고 새 상자를 만든 다음 현재 상자에 연결한다.
-      // tail은 다시 맨 마지막 빈 상자를 가리킨다.
-      tail.value = student;
-      tail.next = new Box();
-      tail = tail.next;
-      length++;
+      list.add(student);
 
       System.out.print("계속 입력하시겠습니까(y/n)? ");
       if (!this.keyScan.nextLine().equals("y"))
@@ -152,17 +130,12 @@ public class StudentController {
     System.out.print("학생의 인덱스? ");
     int index = Integer.parseInt(this.keyScan.nextLine());
 
-    if (index < 0 || index >= length) {
+    if (index < 0 || index >= list.size()) {
       System.out.println("인덱스가 유효하지 않습니다.");
       return;
     }
 
-    Box currentBox = head;
-    for (int i = 0; i < index; i++) {
-      currentBox = currentBox.next;
-    }
-
-    Student student = (Student)currentBox.value;
+    Student student = (Student)list.get(index);
 
     System.out.printf("아이디: %s\n", student.userId);
     System.out.printf("암호: (***)\n");
@@ -178,25 +151,13 @@ public class StudentController {
     System.out.print("삭제할 학생의 인덱스? ");
     int index = Integer.parseInt(keyScan.nextLine());
 
-    if (index < 0 || index >= length) {
+    if (index < 0 || index >= list.size()) {
       System.out.println("인덱스가 유효하지 않습니다.");
       return;
     }
 
-    Student deletedStudent = null;
-    if (index == 0) {
-      deletedStudent = (Student)head.value;
-      head = head.next;
-    } else {
-      Box currentBox = head;
-      for (int i = 0; i < (index - 1); i++) {
-        currentBox = currentBox.next;
-      }
-      deletedStudent = (Student)currentBox.next.value;
-      currentBox.next = currentBox.next.next;
-    }
+    Student deletedStudent = (Student)list.remove(index);
 
-    length--;
     System.out.printf("%s 학생 정보를 삭제하였습니다.\n", deletedStudent.userId);
   }
 }
