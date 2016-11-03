@@ -1,3 +1,18 @@
+[v1.0]
+구현할 기능:
+=> LinkedList에 제네릭을 적용한다.
+=> LinkedList를 사용하는 모든 코드에서 타입 캐스팅을 제거한다.
+
+산출물:
+=> Student.java
+=> EduApp.java
+=> XxxController.java (변경)
+=> LinkedList.java (변경)
+
+학습목표:
+=> 제네릭을 클래스에 적용하고 제네릭이 적용된 클래스를 사용할 수 있다.
+
+
 [v0.9]
 구현할 기능:
 => LinkedList 클래스를 만든다.
