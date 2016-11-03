@@ -3,11 +3,11 @@ package bitcamp.java89.ems;
 import java.util.Scanner;
 
 public class StudentController {
-  private LinkedList list;
+  private LinkedList<Student> list;
   private Scanner keyScan;
 
   public StudentController(Scanner keyScan) {
-    list = new LinkedList();
+    list = new LinkedList<Student>();
     this.keyScan = keyScan;
   }
 
@@ -33,7 +33,7 @@ public class StudentController {
 
   private void doList() {
     for (int i = 0; i < list.size(); i++) {
-      Student student = (Student)list.get(i);
+      Student student = list.get(i);
       System.out.printf("%s,%s,%s,%s,%s,%s,%d,%s\n",
         student.userId,
         student.password,
@@ -56,7 +56,7 @@ public class StudentController {
       return;
     }
 
-    Student oldStudent = (Student)list.get(index);
+    Student oldStudent = list.get(index);
 
     // 새 학생 정보를 입력 받는다.
     Student student = new Student();
@@ -135,7 +135,7 @@ public class StudentController {
       return;
     }
 
-    Student student = (Student)list.get(index);
+    Student student = list.get(index);
 
     System.out.printf("아이디: %s\n", student.userId);
     System.out.printf("암호: (***)\n");
@@ -156,7 +156,7 @@ public class StudentController {
       return;
     }
 
-    Student deletedStudent = (Student)list.remove(index);
+    Student deletedStudent = list.remove(index);
 
     System.out.printf("%s 학생 정보를 삭제하였습니다.\n", deletedStudent.userId);
   }
