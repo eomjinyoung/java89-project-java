@@ -19,8 +19,7 @@ public class LinkedList<T> {
 
   public T get(int index) {
     if (index < 0 || index >= length) {
-      System.out.println("인덱스가 유효하지 않습니다.");
-      return null;
+      throw new IndexOutOfBoundsException("인덱스가 유효하지 않습니다.");
     }
 
     Box<T> cursor = head;
@@ -32,8 +31,7 @@ public class LinkedList<T> {
 
   public T set(int index, T newValue) {
     if (index < 0 || index >= length) {
-      System.out.println("인덱스가 유효하지 않습니다.");
-      return null;
+      throw new IndexOutOfBoundsException("인덱스가 유효하지 않습니다.");
     }
 
     Box<T> cursor = head;
@@ -48,8 +46,7 @@ public class LinkedList<T> {
 
   public T remove(int index) {
     if (index < 0 || index >= length) {
-      System.out.println("인덱스가 유효하지 않습니다.");
-      return null;
+      throw new IndexOutOfBoundsException("인덱스가 유효하지 않습니다.");
     }
 
     T oldValue = null;
