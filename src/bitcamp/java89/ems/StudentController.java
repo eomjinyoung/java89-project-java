@@ -112,10 +112,15 @@ public class StudentController {
 
         System.out.print("재직중(y/n)? ");
         student.working = (this.keyScan.nextLine().equals("y")) ? true : false;
-
-        System.out.print("태어난해(예:1980)? ");
-        student.birthYear = Integer.parseInt(this.keyScan.nextLine());
-
+        while (true) {
+          try {
+            System.out.print("태어난해(예:1980)? ");
+            student.birthYear = Integer.parseInt(this.keyScan.nextLine());
+            break;
+          } catch (Exception e) {
+            System.out.println("값을 잘못입력하였습니다.");
+          }
+        }
         System.out.print("최종학교(예:비트고등학교)? ");
         student.school = this.keyScan.nextLine();
 
