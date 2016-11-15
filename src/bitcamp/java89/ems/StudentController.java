@@ -1,18 +1,87 @@
-/* 작업내용
-- LinkedList를 ArrayList로 교체한다.
+/* 작업내용: 저장 기능 추가
+- changed 변수 추가
+- isChanged() 추가
+- save() 추가 
 */
 package bitcamp.java89.ems;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.FileOutputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.DataInputStream;
+import java.io.EOFException;
 
 public class StudentController {
+  private String filename = "student.data";
   private ArrayList<Student> list;
+  private boolean changed;
   private Scanner keyScan;
 
   public StudentController(Scanner keyScan) {
     list = new ArrayList<Student>();
     this.keyScan = keyScan;
+
+    this.load(); // 기존의 데이터 파일을 읽어서 ArrayList에 학생 정보를 로딩한다.
+  }
+
+  public boolean isChanged() {
+    return changed;
+  }
+
+  private void load() {
+    FileInputStream in0 = null;
+    DataInputStream in = null;
+    
+    try {
+      in0 = new FileInputStream(this.filename);
+      in = new DataInputStream(in0);
+
+      while (true) {
+        Student student = new Student(); // 학생 데이터를 저장할 빈 객체 생성
+        student.userId = in.readUTF(); // 학생 데이터 저장 
+        student.password = in.readUTF();
+        student.name = in.readUTF();
+        student.email = in.readUTF();
+        student.tel = in.readUTF();
+        student.working = in.readBoolean();
+        student.birthYear = in.readInt();
+        student.school = in.readUTF();
+        this.list.add(student); // 목록에 학생 객체 추가 
+      }
+    } catch (EOFException e) {
+      // 파일을 모두 읽었다.
+    } catch (Exception e) {
+      System.out.println("학생 데이터 로딩 중 오류 발생!");
+    } finally {
+      try {
+        in.close();
+        in0.close();
+      } catch (Exception e) {
+        // close하다가 예외 발생하면 무시한다.
+      }
+    }
+  }
+
+  public void save() throws Exception {
+    FileOutputStream out0 = new FileOutputStream(this.filename);
+    DataOutputStream out = new DataOutputStream(out0);
+
+    for (Student student : this.list) {
+      out.writeUTF(student.userId);
+      out.writeUTF(student.password);
+      out.writeUTF(student.name);
+      out.writeUTF(student.email);
+      out.writeUTF(student.tel);
+      out.writeBoolean(student.working);
+      out.writeInt(student.birthYear);
+      out.writeUTF(student.school);
+    }
+    changed = false;
+
+    out.close();
+    out0.close();
   }
 
   public void service() {
@@ -95,6 +164,7 @@ public class StudentController {
     if (keyScan.nextLine().toLowerCase().equals("y")) {
       student.userId = oldStudent.userId;
       list.set(index, student);
+      changed = true;
       System.out.println("저장하였습니다.");
     } else {
       System.out.println("변경을 취소하였습니다.");
@@ -136,6 +206,7 @@ public class StudentController {
       student.school = this.keyScan.nextLine();
 
       list.add(student);
+      changed = true;
 
       System.out.print("계속 입력하시겠습니까(y/n)? ");
       if (!this.keyScan.nextLine().equals("y"))
@@ -163,6 +234,7 @@ public class StudentController {
     System.out.print("삭제할 학생의 인덱스? ");
     int index = Integer.parseInt(keyScan.nextLine());
     Student deletedStudent = list.remove(index);
+    changed = true;
     System.out.printf("%s 학생 정보를 삭제하였습니다.\n", deletedStudent.userId);
   }
 }
