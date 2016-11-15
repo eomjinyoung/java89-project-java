@@ -1,20 +1,17 @@
-/* 작업내용: 저장 기능 추가
-- changed 변수 추가
-- isChanged() 추가
-- save() 추가 
+/* 작업내용: 직렬화 적용 
 */
 package bitcamp.java89.ems;
 
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.io.FileOutputStream;
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.DataInputStream;
 import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class StudentController {
-  private String filename = "student.data";
+  private String filename = "student2.data";
   private ArrayList<Student> list;
   private boolean changed;
   private Scanner keyScan;
@@ -30,26 +27,17 @@ public class StudentController {
     return changed;
   }
 
+  @SuppressWarnings("unchecked")
   private void load() {
     FileInputStream in0 = null;
-    DataInputStream in = null;
+    ObjectInputStream in = null;
     
     try {
       in0 = new FileInputStream(this.filename);
-      in = new DataInputStream(in0);
+      in = new ObjectInputStream(in0);
 
-      while (true) {
-        Student student = new Student(); // 학생 데이터를 저장할 빈 객체 생성
-        student.userId = in.readUTF(); // 학생 데이터 저장 
-        student.password = in.readUTF();
-        student.name = in.readUTF();
-        student.email = in.readUTF();
-        student.tel = in.readUTF();
-        student.working = in.readBoolean();
-        student.birthYear = in.readInt();
-        student.school = in.readUTF();
-        this.list.add(student); // 목록에 학생 객체 추가 
-      }
+      list = (ArrayList<Student>)in.readObject();
+      
     } catch (EOFException e) {
       // 파일을 모두 읽었다.
     } catch (Exception e) {
@@ -66,18 +54,10 @@ public class StudentController {
 
   public void save() throws Exception {
     FileOutputStream out0 = new FileOutputStream(this.filename);
-    DataOutputStream out = new DataOutputStream(out0);
+    ObjectOutputStream out = new ObjectOutputStream(out0);
 
-    for (Student student : this.list) {
-      out.writeUTF(student.userId);
-      out.writeUTF(student.password);
-      out.writeUTF(student.name);
-      out.writeUTF(student.email);
-      out.writeUTF(student.tel);
-      out.writeBoolean(student.working);
-      out.writeInt(student.birthYear);
-      out.writeUTF(student.school);
-    }
+    out.writeObject(list);
+    
     changed = false;
 
     out.close();
