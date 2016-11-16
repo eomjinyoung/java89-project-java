@@ -158,9 +158,20 @@ public class ContactController {
 
       System.out.print("이메일(예:hong@test.com)? ");
       contact.setEmail(this.keyScan.nextLine());
-
-      list.add(contact);
-      changed = true;
+      
+      boolean save = true;
+      if (existEmail(contact.getEmail())) {
+        System.out.print("같은 이메일이 존재합니다. 저장하시겠습니까?(y/n)");
+        if (!keyScan.nextLine().toLowerCase().equals("y")) {
+          save = false;
+          System.out.println("저장을 취소하였습니다.");
+        }
+      }
+      
+      if (save) {
+        list.add(contact);
+        changed = true;
+      }
 
       System.out.print("계속 입력하시겠습니까(y/n)? ");
       if (!this.keyScan.nextLine().equals("y"))
@@ -168,6 +179,15 @@ public class ContactController {
     } // while
   }
 
+  private boolean existEmail(String email) {
+    for (Contact contact : list) {
+      if (contact.getEmail().toLowerCase().equals(email.toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
   private void doView() {
     System.out.print("이름? ");
     String name = this.keyScan.nextLine();
@@ -183,6 +203,43 @@ public class ContactController {
     }
   }
 
+  private void doDelete() { // 마지막 버전
+    System.out.print("이름? ");
+    String name = keyScan.nextLine();
+    
+    ArrayList<Contact> deleteList = searchByName(name);
+    
+    System.out.println("------------------------");
+    for (int i = 0; i < deleteList.size(); i++) {
+      Contact contact = deleteList.get(i);
+      System.out.printf("%d. %s(%s)\n", (i + 1), contact.getName(), contact.getEmail());
+    }
+    System.out.println("------------------------");
+    
+    System.out.print("삭제할 연락처의 번호? ");
+    int deleteNo = Integer.parseInt(keyScan.nextLine());
+    
+    if (deleteNo < 1 || deleteNo > deleteList.size()) {
+      System.out.println("유효하지 않은 번호입니다.");
+      return;
+    }
+    
+    list.remove(deleteList.get(deleteNo - 1));
+    changed = true;
+    System.out.println("삭제하였습니다.");
+  }
+  
+  private ArrayList<Contact> searchByName(String name) {
+    ArrayList<Contact> searchList = new ArrayList<>();
+    for (Contact contact : list) {
+      if (contact.getName().toLowerCase().equals(name.toLowerCase())) {
+        searchList.add(contact);
+      }
+    }
+    return searchList;
+  }
+  
+  /*
   private void doDelete() { // 방법1
     System.out.print("이름? ");
     String name = keyScan.nextLine();
@@ -196,6 +253,7 @@ public class ContactController {
     changed = true;
     System.out.println("삭제하였습니다.");
   }
+  */
   /*
   private void doDelete() { // 방법2
     System.out.print("이름? ");
