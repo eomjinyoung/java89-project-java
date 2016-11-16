@@ -1,3 +1,17 @@
+# v1.5
+####구현할 기능:
+- 연락처 관리 기능 
+
+####산출물:
+- Student.java
+- StudentController.java
+- EduApp.java (변경)
+- Contact.java (추가)
+- ContactConroller.java (추가)
+
+####학습목표:
+- 직렬화 프로그래밍 및 유지보수 연습
+
 # v1.4
 ####구현할 기능:
 - 직렬화 방식을 사용하여 데이터를 저장하고 읽는다.
