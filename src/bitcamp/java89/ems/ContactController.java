@@ -69,9 +69,9 @@ public class ContactController {
       try {
         switch (command) {
         case "add": this.doAdd(); break;
-        //case "list": this.doList(); break;
-        //case "view": this.doView(); break;
-        //case "delete": this.doDelete(); break;
+        case "list": this.doList(); break;
+        case "view": this.doView(); break;
+        case "delete": this.doDelete(); break;
         //case "update": this.doUpdate(); break;
         case "main":
           break loop;
@@ -82,25 +82,21 @@ public class ContactController {
         System.out.println("인덱스가 유효하지 않습니다.");
       } catch (Exception e) {
         System.out.println("실행 중 오류가 발생했습니다.");
+        e.printStackTrace();
       } // try
     } // while
   }
 
-/*
   private void doList() {
     for (Contact contact : list) {
-      System.out.printf("%s,%s,%s,%s,%s,%s,%d,%s\n",
-        contact.userId,
-        contact.password,
-        contact.name,
-        contact.tel,
-        contact.email,
-        ((contact.working)?"yes":"no"),
-        contact.birthYear,
-        contact.school);
+      System.out.printf("%s,%s,%s,%s\n",
+        contact.getName(),
+        contact.getPosition(),
+        contact.getTel(),
+        contact.getEmail());
     }
   }
-
+/*
   private void doUpdate() {
     System.out.print("변경할 학생의 인덱스? ");
     int index = Integer.parseInt(this.keyScan.nextLine());
@@ -171,29 +167,55 @@ public class ContactController {
         break;
     } // while
   }
-/*
+
   private void doView() {
-    System.out.print("학생의 인덱스? ");
-    int index = Integer.parseInt(this.keyScan.nextLine());
+    System.out.print("이름? ");
+    String name = this.keyScan.nextLine();
 
-    Contact contact = list.get(index);
-
-    System.out.printf("아이디: %s\n", contact.userId);
-    System.out.printf("암호: (***)\n");
-    System.out.printf("이름: %s\n", contact.name);
-    System.out.printf("전화: %s\n", contact.tel);
-    System.out.printf("이메일: %s\n", contact.email);
-    System.out.printf("재직중: %s\n", (contact.working) ? "Yes" : "No");
-    System.out.printf("태어난 해: %d\n", contact.birthYear);
-    System.out.printf("학교: %s\n", contact.school);
+    for (Contact contact : list) {
+      if (contact.getName().equals(name)) {
+        System.out.println("--------------------------");
+        System.out.printf("이름: %s\n", contact.getName());
+        System.out.printf("직위: %s\n", contact.getPosition());
+        System.out.printf("전화: %s\n", contact.getTel());
+        System.out.printf("이메일: %s\n", contact.getEmail());
+      }
+    }
   }
 
-  private void doDelete() {
-    System.out.print("삭제할 학생의 인덱스? ");
-    int index = Integer.parseInt(keyScan.nextLine());
-    Contact deletedContact = list.remove(index);
+  private void doDelete() { // 방법1
+    System.out.print("이름? ");
+    String name = keyScan.nextLine();
+    
+    for (int i = list.size() - 1; i >= 0; i--) {
+      if (list.get(i).getName().equals(name)) {
+        list.remove(i);
+      }
+    }
+    
     changed = true;
-    System.out.printf("%s 학생 정보를 삭제하였습니다.\n", deletedContact.userId);
+    System.out.println("삭제하였습니다.");
   }
-*/
+  /*
+  private void doDelete() { // 방법2
+    System.out.print("이름? ");
+    String name = keyScan.nextLine();
+    
+    ArrayList<Contact> deleteList = new ArrayList<>();
+    
+    for (Contact contact : list) {
+      if (contact.getName().equals(name)) {
+        deleteList.add(contact);
+      }
+    }
+    
+    for (Contact contact : deleteList) {
+      list.remove(contact);
+    }
+    
+    changed = true;
+    System.out.println("삭제하였습니다.");
+  }
+  */
+
 }
