@@ -20,12 +20,14 @@ public class EduAppClient {
       
       while (true) {
         // 서버가 보낸 데이터를 읽는다. 빈 줄을 입력 받을 때까지.
+        boolean firstLine = true;
         while (true) {
           String message = in.nextLine();
           if (message.length() == 0) {
             break;
           }
-          System.out.printf("\n%s", message);
+          System.out.printf("%s%s", ((firstLine)?"":"\n"), message);
+          firstLine = false;
         }
         
         // 사용자로부터 명령을 입력 받아 출력한다.
