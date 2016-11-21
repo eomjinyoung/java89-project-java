@@ -1,8 +1,14 @@
-package bitcamp.java89.ems;
+package bitcamp.java89.ems.server;
 
 import java.util.Scanner;
 
-public class EduApp {
+import bitcamp.java89.ems.server.controller.ClassroomController;
+import bitcamp.java89.ems.server.controller.ContactController;
+import bitcamp.java89.ems.server.controller.CurriculumController;
+import bitcamp.java89.ems.server.controller.StudentController;
+import bitcamp.java89.ems.server.controller.TextbookController;
+
+public class EduAppServer {
   static Scanner keyScan = new Scanner(System.in);
   static StudentController studentController;
   static CurriculumController curriculumController;

@@ -1,4 +1,4 @@
-package bitcamp.java89.ems;
+package bitcamp.java89.ems.server.controller;
 
 import java.io.EOFException;
 import java.io.FileInputStream;
@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import bitcamp.java89.ems.server.vo.Contact;
 
 public class ContactController {
   private String filename = "contactv1.5.data";

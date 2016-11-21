@@ -1,5 +1,7 @@
-package bitcamp.java89.ems;
+package bitcamp.java89.ems.server.controller;
 import java.util.Scanner;
+
+import bitcamp.java89.ems.server.vo.Textbook;
 public class TextbookController {
   Scanner scan;
   Textbook[] textbooks = new Textbook[100];
@@ -15,11 +17,11 @@ public class TextbookController {
       String command = scan.nextLine().toLowerCase();
 
       switch (command) {
-      case "add": this.doAdd(); break;
-      case "list": this.doList(); break;
-      case "view": this.doView(); break;
-      case "delete": this.doDelete(); break;
-      case "update": this.doUpdate(); break;
+      //case "add": this.doAdd(); break;
+      //case "list": this.doList(); break;
+      //case "view": this.doView(); break;
+      //case "delete": this.doDelete(); break;
+      //case "update": this.doUpdate(); break;
       case "main":
         break loop;
       default:
@@ -28,6 +30,7 @@ public class TextbookController {
     }
   }
 
+  /*
   public void doAdd() {
     for (int i = 0; i < textbooks.length; i++) {
       Textbook textbook = new Textbook();
@@ -125,4 +128,5 @@ public class TextbookController {
     }
     System.out.printf("%s 교재는 없습니다.\n", inputtitle);
   }
+  */
 }

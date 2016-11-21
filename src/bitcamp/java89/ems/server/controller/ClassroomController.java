@@ -1,5 +1,7 @@
-package bitcamp.java89.ems;
+package bitcamp.java89.ems.server.controller;
 import java.util.Scanner;
+
+import bitcamp.java89.ems.server.vo.Classroom;
 public class ClassroomController {
   private Classroom[] classrooms = new Classroom[100];
   private int length = 0;
@@ -15,18 +17,18 @@ public class ClassroomController {
         System.out.print("강의실 관리> ");
         String command = keyScan.nextLine().toLowerCase(); // 소문자로 값을 받는다.
         switch (command) {
-          case "add" : this.doAdd(); break;
-          case "list" : this.doList(); break;
-          case "view" : this.doView(); break;
-          case "delete" : this.doDelete(); break;
-          case "update" : this.doUpdate(); break;
+          //case "add" : this.doAdd(); break;
+          //case "list" : this.doList(); break;
+          //case "view" : this.doView(); break;
+          //case "delete" : this.doDelete(); break;
+          //case "update" : this.doUpdate(); break;
           case "main" : break loop;
           default :
             System.out.println("지원하지 않는 명령어입니다.");
         }
       }
   }
-
+/*
   private void doAdd() {
     while (this.length < classrooms.length) {
       Classroom classroom = new Classroom();
@@ -124,5 +126,5 @@ public class ClassroomController {
     }
     System.out.printf("%s호 강의실은 없습니다.\n", num);
   }
-
+*/
 }

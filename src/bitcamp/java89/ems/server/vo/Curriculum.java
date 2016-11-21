@@ -1,4 +1,4 @@
-package bitcamp.java89.ems;
+package bitcamp.java89.ems.server.vo;
 
 public class Curriculum {
   //인스턴스 변수

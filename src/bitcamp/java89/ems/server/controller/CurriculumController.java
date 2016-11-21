@@ -1,6 +1,8 @@
-package bitcamp.java89.ems;
+package bitcamp.java89.ems.server.controller;
 
 import java.util.Scanner;
+
+import bitcamp.java89.ems.server.vo.Curriculum;
 
 public class CurriculumController {
   Curriculum[] curriculums = new Curriculum[100];
@@ -20,11 +22,11 @@ public class CurriculumController {
       String command = keyScan.nextLine().toLowerCase();
 
       switch (command) {
-      case "add": this.doAdd(); break;
-      case "list": this.doList(); break;
-      case "view": this.doView(); break;
-      case "delete": this.doDelete(); break;
-      case "update": this.doUpdate(); break;
+      //case "add": this.doAdd(); break;
+      //case "list": this.doList(); break;
+      //case "view": this.doView(); break;
+      //case "delete": this.doDelete(); break;
+      //case "update": this.doUpdate(); break;
       case "main":
         break loop;
       default:
@@ -32,7 +34,7 @@ public class CurriculumController {
       }
     }
   }
-
+/*
   public void doList() {
     for (int i = 0; i < this.length; i++) {
       Curriculum curriculum = this.curriculums[i];
@@ -149,4 +151,5 @@ public class CurriculumController {
     }
     System.out.printf("%s 학생이 없습니다.\n", curriculumName);
   }
+  */
 }

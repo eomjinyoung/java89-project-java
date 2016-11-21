@@ -1,4 +1,4 @@
-package bitcamp.java89.ems;
+package bitcamp.java89.ems.server.vo;
 public class Textbook {
   String title;
   String author;
