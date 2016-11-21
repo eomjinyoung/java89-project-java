@@ -1,14 +1,19 @@
 package bitcamp.java89.ems.server.controller;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 import bitcamp.java89.ems.server.vo.Textbook;
 public class TextbookController {
+  private Scanner in;
+  private PrintStream out;
+  
   Scanner scan;
   Textbook[] textbooks = new Textbook[100];
   int length = 0;
 
-  public TextbookController(Scanner scan) {
-    this.scan = scan;
+  public TextbookController(Scanner in, PrintStream out) {
+    this.in = in;
+    this.out = out;
   }
   public void service() {
     loop:

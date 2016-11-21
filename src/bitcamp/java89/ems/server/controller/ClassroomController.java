@@ -1,14 +1,19 @@
 package bitcamp.java89.ems.server.controller;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 import bitcamp.java89.ems.server.vo.Classroom;
 public class ClassroomController {
+  private Scanner in;
+  private PrintStream out;
+  
   private Classroom[] classrooms = new Classroom[100];
   private int length = 0;
   private Scanner keyScan;
 
-  public ClassroomController(Scanner keyScan) {
-    this.keyScan = keyScan;
+  public ClassroomController(Scanner in, PrintStream out) {
+    this.in = in;
+    this.out = out;
   }
 
   public void service() {

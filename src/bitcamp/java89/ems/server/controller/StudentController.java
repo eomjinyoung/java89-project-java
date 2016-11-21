@@ -5,20 +5,25 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import bitcamp.java89.ems.server.vo.Student;
 
 public class StudentController {
+  private Scanner in;
+  private PrintStream out;
+  
   private String filename = "student2.data";
   private ArrayList<Student> list;
   private boolean changed;
   private Scanner keyScan;
 
-  public StudentController(Scanner keyScan) {
+  public StudentController(Scanner in, PrintStream out) {
     list = new ArrayList<Student>();
-    this.keyScan = keyScan;
+    this.in = in;
+    this.out = out;
 
     this.load(); // 기존의 데이터 파일을 읽어서 ArrayList에 학생 정보를 로딩한다.
   }

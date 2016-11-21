@@ -1,5 +1,10 @@
 package bitcamp.java89.ems.server;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Scanner;
 
 import bitcamp.java89.ems.server.controller.ClassroomController;
@@ -9,6 +14,9 @@ import bitcamp.java89.ems.server.controller.StudentController;
 import bitcamp.java89.ems.server.controller.TextbookController;
 
 public class EduAppServer {
+  static Scanner in;
+  static PrintStream out;
+  
   static Scanner keyScan = new Scanner(System.in);
   static StudentController studentController;
   static CurriculumController curriculumController;
@@ -16,19 +24,32 @@ public class EduAppServer {
   static ClassroomController classroomController;
   static ContactController contactController;
 
-  public static void main(String[] args) {
-    studentController = new StudentController(keyScan);
-    curriculumController = new CurriculumController(keyScan);
-    textbookController = new TextbookController(keyScan);
-    classroomController = new ClassroomController(keyScan);
-    contactController = new ContactController(keyScan);
+  public static void main(String[] args) throws Exception {
+    ServerSocket ss = new ServerSocket(8888);
+    System.out.println("서버 실행 중...");
+    
+    Socket socket = ss.accept();
+    in = new Scanner(
+      new BufferedInputStream(socket.getInputStream()));
+    out = new PrintStream(
+      new BufferedOutputStream(socket.getOutputStream()), true);
+    
+    studentController = new StudentController(in, out);
+    curriculumController = new CurriculumController(in, out);
+    textbookController = new TextbookController(in, out);
+    classroomController = new ClassroomController(in, out);
+    contactController = new ContactController(in, out);
 
-    System.out.println("비트캠프 관리시스템에 오신걸 환영합니다.");
+    out.println("비트캠프 관리시스템에 오신걸 환영합니다.");
 
     loop:
     while (true) {
-      System.out.print("명령> ");
-      String command = keyScan.nextLine().toLowerCase();
+      // 클라이언트에게 데이터를 전송한다.
+      out.println("명령>");
+      out.println(); // 빈 줄은 보내는 데이터의 끝을 의미한다.
+      
+      // 클라이언트로부터 명령을 읽는다.
+      String command = in.nextLine().toLowerCase();
 
       switch (command) {
       case "menu": doMenu(); break;
@@ -43,21 +64,27 @@ public class EduAppServer {
           break loop;
         break;
       default:
-        System.out.println("지원하지 않는 명령어입니다.");
+        out.println("지원하지 않는 명령어입니다.");
       }
     }
+    
+    in.close();
+    out.close();
+    socket.close();
+    ss.close();
   }
+  
   static void doMenu() {
-    System.out.println("[메뉴]");
-    System.out.println("1. 학생관리");
-    System.out.println("2. 강좌관리");
-    System.out.println("3. 교재관리");
-    System.out.println("4. 강의실관리");
-    System.out.println("5. 연락처관리");
-    System.out.println("메뉴 이동은 'go 메뉴번호'를 입력하세요.");
-    System.out.println("[명령]");
-    System.out.println("save   데이터 저장");
-    System.out.println("quit   프로그램 종료");
+    out.println("[메뉴]");
+    out.println("1. 학생관리");
+    out.println("2. 강좌관리");
+    out.println("3. 교재관리");
+    out.println("4. 강의실관리");
+    out.println("5. 연락처관리");
+    out.println("메뉴 이동은 'go 메뉴번호'를 입력하세요.");
+    out.println("[명령]");
+    out.println("save   데이터 저장");
+    out.println("quit   프로그램 종료");
   }
 
   static boolean doQuit() {

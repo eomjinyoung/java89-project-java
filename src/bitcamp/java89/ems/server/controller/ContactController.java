@@ -5,20 +5,25 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import bitcamp.java89.ems.server.vo.Contact;
 
 public class ContactController {
+  private Scanner in;
+  private PrintStream out;
+  
   private String filename = "contactv1.5.data";
   private ArrayList<Contact> list;
   private boolean changed;
   private Scanner keyScan;
 
-  public ContactController(Scanner keyScan) {
+  public ContactController(Scanner in, PrintStream out) {
     list = new ArrayList<Contact>();
-    this.keyScan = keyScan;
+    this.in = in;
+    this.out = out;
 
     this.load(); 
   }

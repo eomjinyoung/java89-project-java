@@ -1,18 +1,21 @@
 package bitcamp.java89.ems.server.controller;
 
+import java.io.PrintStream;
 import java.util.Scanner;
 
 import bitcamp.java89.ems.server.vo.Curriculum;
 
 public class CurriculumController {
+  private Scanner in;
+  private PrintStream out;
+  
   Curriculum[] curriculums = new Curriculum[100];
   int length = 0;
   Scanner keyScan;
 
-  // 기본생성자가 없기때문에 이 클래스를 사용하려면 반드시 Scanner를 줘야함.
-  // => 생성자에서 하는 일은 그 객체를 사용하기 전에 유효 상태로 만드는 것이다.
-  public CurriculumController(Scanner keyScan) {
-    this.keyScan = keyScan;
+  public CurriculumController(Scanner in, PrintStream out) {
+    this.in = in;
+    this.out = out;
   }
 
   public void service() {
