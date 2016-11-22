@@ -15,10 +15,9 @@ public class StudentController {
   private Scanner in;
   private PrintStream out;
   
-  private String filename = "student2.data";
+  private String filename = "student-v1.6.data";
   private ArrayList<Student> list;
   private boolean changed;
-  private Scanner keyScan;
 
   public StudentController(Scanner in, PrintStream out) {
     list = new ArrayList<Student>();
@@ -109,6 +108,7 @@ public class StudentController {
     }
   }
 
+  // update?userId=...&
   private void doUpdate() {
     System.out.print("변경할 학생의 인덱스? ");
     int index = Integer.parseInt(this.keyScan.nextLine());
@@ -156,6 +156,7 @@ public class StudentController {
     }
   }
 
+  // add?userId=...&
   private void doAdd() {
     while (true) {
       Student student = new Student();
@@ -199,6 +200,7 @@ public class StudentController {
     } // while
   }
 
+  // view?userId=hong
   private void doView() {
     System.out.print("학생의 인덱스? ");
     int index = Integer.parseInt(this.keyScan.nextLine());
@@ -215,6 +217,7 @@ public class StudentController {
     System.out.printf("학교: %s\n", student.getSchool());
   }
 
+  // delete?userId=
   private void doDelete() {
     System.out.print("삭제할 학생의 인덱스? ");
     int index = Integer.parseInt(keyScan.nextLine());
