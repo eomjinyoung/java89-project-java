@@ -44,7 +44,7 @@ public class ContactDao {
     } catch (EOFException e) {
       // 파일을 모두 읽었다.
     } catch (Exception e) {
-      System.out.println("데이터 로딩 중 오류 발생!");
+      System.out.println("연락처 데이터 로딩 중 오류 발생!");
       list = new ArrayList<>();
       
     } finally {
@@ -55,7 +55,7 @@ public class ContactDao {
     }
   }
 
-  public void save() throws Exception {
+  synchronized public void save() throws Exception {
     FileOutputStream out0 = new FileOutputStream(this.filename);
     ObjectOutputStream out = new ObjectOutputStream(out0);
 
