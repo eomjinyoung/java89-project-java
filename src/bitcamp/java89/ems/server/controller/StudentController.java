@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import bitcamp.java89.ems.server.vo.Student;
@@ -71,32 +72,34 @@ public class StudentController {
   public void service() {
     loop:
     while (true) {
-      System.out.print("학생관리> ");
-      String command = keyScan.nextLine().toLowerCase();
+      out.println("학생관리> ");
+      out.println();
+      
+      String[] commands = in.nextLine().split("\\?");
 
       try {
-        switch (command) {
-        case "add": this.doAdd(); break;
+        switch (commands[0]) {
+        case "add": this.doAdd(commands[1]); break;
         case "list": this.doList(); break;
-        case "view": this.doView(); break;
-        case "delete": this.doDelete(); break;
-        case "update": this.doUpdate(); break;
+        case "view": this.doView(commands[1]); break;
+        case "delete": this.doDelete(commands[1]); break;
+        case "update": this.doUpdate(commands[1]); break;
         case "main":
           break loop;
         default:
-          System.out.println("지원하지 않는 명령어입니다.");
+          out.println("지원하지 않는 명령어입니다.");
         }
       } catch (IndexOutOfBoundsException e) {
-        System.out.println("인덱스가 유효하지 않습니다.");
+        out.println("인덱스가 유효하지 않습니다.");
       } catch (Exception e) {
-        System.out.println("실행 중 오류가 발생했습니다.");
+        out.println("실행 중 오류가 발생했습니다.");
       } // try
     } // while
   }
 
   private void doList() {
     for (Student student : list) {
-      System.out.printf("%s,%s,%s,%s,%s,%s,%d,%s\n",
+      out.printf("%s,%s,%s,%s,%s,%s,%d,%s\n",
         student.getUserId(),
         student.getPassword(),
         student.getName(),
@@ -108,121 +111,94 @@ public class StudentController {
     }
   }
 
-  // update?userId=...&
-  private void doUpdate() {
-    System.out.print("변경할 학생의 인덱스? ");
-    int index = Integer.parseInt(this.keyScan.nextLine());
-
-    Student oldStudent = list.get(index);
-
-    // 새 학생 정보를 입력 받는다.
+  // update?userId=aaa&password=1111&name=홍길동2&tel=1111-2222&email=hong2@test.com&working=n&birthYear=2000&school=비트대학
+  private void doUpdate(String params) {
+    String[] values = params.split("&");
+    HashMap<String,String> paramMap = new HashMap<>();
+    
+    for (String value : values) {
+      String[] kv = value.split("=");
+      paramMap.put(kv[0], kv[1]);
+    }
+    
+    for (Student student : list) {
+      if (!student.getUserId().equals(paramMap.get("userId"))) {
+        continue;
+      }
+      student.setPassword(paramMap.get("password"));
+      student.setName(paramMap.get("name"));
+      student.setTel(paramMap.get("tel"));
+      student.setEmail(paramMap.get("email"));
+      student.setWorking(paramMap.get("working").equals("y") ? true : false);
+      student.setBirthYear(Integer.parseInt(paramMap.get("birthYear")));
+      student.setSchool(paramMap.get("school"));
+      
+      changed = true;
+      out.println("학생 정보를 변경하였습니다.");
+      return;
+    }
+    out.println("해당 아이디의 학생이 없습니다.");
+  }
+  
+  // add?userId=aaa&password=1111&name=홍길동&tel=1111-1111&email=hong@test.com&working=y&birthYear=1999&school=비트대학
+  private void doAdd(String params) {
+    String[] values = params.split("&");
+    HashMap<String,String> paramMap = new HashMap<>();
+    
+    for (String value : values) {
+      String[] kv = value.split("=");
+      paramMap.put(kv[0], kv[1]);
+    }
+    
     Student student = new Student();
-    System.out.print("암호(예:1111)? ");
-    student.setPassword(this.keyScan.nextLine());
+    student.setUserId(paramMap.get("userId"));
+    student.setPassword(paramMap.get("password"));
+    student.setName(paramMap.get("name"));
+    student.setTel(paramMap.get("tel"));
+    student.setEmail(paramMap.get("email"));
+    student.setWorking(paramMap.get("working").equals("y") ? true : false);
+    student.setBirthYear(Integer.parseInt(paramMap.get("birthYear")));
+    student.setSchool(paramMap.get("school"));
 
-    System.out.printf("이름(%s)? ", oldStudent.getName());
-    student.setName(this.keyScan.nextLine());
-
-    System.out.printf("전화(%s)? ", oldStudent.getTel());
-    student.setTel(this.keyScan.nextLine());
-
-    System.out.printf("이메일(%s)? ", oldStudent.getEmail());
-    student.setEmail(this.keyScan.nextLine());
-
-    System.out.print("재직중(y/n)? ");
-    student.setWorking(this.keyScan.nextLine().equals("y") ? true : false);
-
-    while (true) {
-      try {
-        System.out.printf("태어난해(%d)? ", oldStudent.getBirthYear());
-        student.setBirthYear(Integer.parseInt(this.keyScan.nextLine()));
-        break;
-      } catch (Exception e) {
-        System.out.println("정수 값을 입력하세요.");
-      }
-    }
-
-    System.out.printf("최종학교(%s)? ", oldStudent.getSchool());
-    student.setSchool(this.keyScan.nextLine());
-
-    System.out.print("저장하시겠습니까(y/n)? ");
-    if (keyScan.nextLine().toLowerCase().equals("y")) {
-      student.setUserId(oldStudent.getUserId());
-      list.set(index, student);
-      changed = true;
-      System.out.println("저장하였습니다.");
-    } else {
-      System.out.println("변경을 취소하였습니다.");
-    }
-  }
-
-  // add?userId=...&
-  private void doAdd() {
-    while (true) {
-      Student student = new Student();
-      System.out.print("아이디(:hong)? ");
-      student.setUserId(this.keyScan.nextLine());
-
-      System.out.print("암호(예:1111)? ");
-      student.setPassword(this.keyScan.nextLine());
-
-      System.out.print("이름(예:홍길동)? ");
-      student.setName(this.keyScan.nextLine());
-
-      System.out.print("전화(예:010-1111-2222)? ");
-      student.setTel(this.keyScan.nextLine());
-
-      System.out.print("이메일(예:hong@test.com)? ");
-      student.setEmail(this.keyScan.nextLine());
-
-      System.out.print("재직중(y/n)? ");
-      student.setWorking(this.keyScan.nextLine().equals("y") ? true : false);
-      
-      while (true) {
-        try {      
-          System.out.print("태어난해(예:1980)? ");
-          student.setBirthYear(Integer.parseInt(this.keyScan.nextLine()));
-          break;
-        } catch (Exception e) {
-          System.out.println("정수 값을 입력하세요.");
-        }
-      }
-      
-      System.out.print("최종학교(예:비트고등학교)? ");
-      student.setSchool(this.keyScan.nextLine());
-
-      list.add(student);
-      changed = true;
-
-      System.out.print("계속 입력하시겠습니까(y/n)? ");
-      if (!this.keyScan.nextLine().equals("y"))
-        break;
-    } // while
-  }
-
-  // view?userId=hong
-  private void doView() {
-    System.out.print("학생의 인덱스? ");
-    int index = Integer.parseInt(this.keyScan.nextLine());
-
-    Student student = list.get(index);
-
-    System.out.printf("아이디: %s\n", student.getUserId());
-    System.out.printf("암호: (***)\n");
-    System.out.printf("이름: %s\n", student.getName());
-    System.out.printf("전화: %s\n", student.getTel());
-    System.out.printf("이메일: %s\n", student.getEmail());
-    System.out.printf("재직중: %s\n", (student.isWorking()) ? "Yes" : "No");
-    System.out.printf("태어난 해: %d\n", student.getBirthYear());
-    System.out.printf("학교: %s\n", student.getSchool());
-  }
-
-  // delete?userId=
-  private void doDelete() {
-    System.out.print("삭제할 학생의 인덱스? ");
-    int index = Integer.parseInt(keyScan.nextLine());
-    Student deletedStudent = list.remove(index);
+    list.add(student);
     changed = true;
-    System.out.printf("%s 학생 정보를 삭제하였습니다.\n", deletedStudent.getUserId());
   }
+
+  // view?userId=aaa
+  private void doView(String params) {
+    String[] kv = params.split("=");
+    
+    for (Student student : list) {
+      if (!student.getUserId().equals(kv[1])) {
+        continue;
+      }
+      out.printf("아이디: %s\n", student.getUserId());
+      out.printf("암호: (***)\n");
+      out.printf("이름: %s\n", student.getName());
+      out.printf("전화: %s\n", student.getTel());
+      out.printf("이메일: %s\n", student.getEmail());
+      out.printf("재직중: %s\n", (student.isWorking()) ? "Yes" : "No");
+      out.printf("태어난 해: %d\n", student.getBirthYear());
+      out.printf("학교: %s\n", student.getSchool());
+      return;
+    }
+    out.println("해당 아이디의 학생이 없습니다.");
+  }
+
+  // delete?userId=aaa
+  private void doDelete(String params) {
+    String[] kv = params.split("=");
+    
+    for (Student student : list) {
+      if (!student.getUserId().equals(kv[1])) {
+        continue;
+      }
+      list.remove(student);
+      out.printf("%s 학생 정보를 삭제하였습니다.\n", student.getUserId());
+      changed = true;
+      return;
+    }
+    out.println("해당 아이디의 학생이 없습니다.");
+  }
+
 }
