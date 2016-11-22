@@ -69,8 +69,7 @@ public class StudentController {
     out0.close();
   }
 
-  public void service() {
-    loop:
+  public boolean service() {
     while (true) {
       out.println("학생관리> ");
       out.println();
@@ -84,8 +83,8 @@ public class StudentController {
         case "view": this.doView(commands[1]); break;
         case "delete": this.doDelete(commands[1]); break;
         case "update": this.doUpdate(commands[1]); break;
-        case "main":
-          break loop;
+        case "main": return true;
+        case "quit": return false;
         default:
           out.println("지원하지 않는 명령어입니다.");
         }
@@ -194,8 +193,8 @@ public class StudentController {
         continue;
       }
       list.remove(student);
-      out.printf("%s 학생 정보를 삭제하였습니다.\n", student.getUserId());
       changed = true;
+      out.printf("%s 학생 정보를 삭제하였습니다.\n", student.getUserId());
       return;
     }
     out.println("해당 아이디의 학생이 없습니다.");

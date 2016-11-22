@@ -68,8 +68,7 @@ public class ContactController {
     out0.close();
   }
 
-  public void service() {
-    loop:
+  public boolean service() {
     while (true) {
       // 클라이언트로 데이터 출력 
       out.println("연락처관리> ");
@@ -85,8 +84,8 @@ public class ContactController {
         case "view": this.doView(commands[1]); break;
         case "delete": this.doDelete(commands[1]); break;
         case "update": this.doUpdate(commands[1]); break;
-        case "main":
-          break loop;
+        case "main": return true;
+        case "quit": return false;
         default:
           out.println("지원하지 않는 명령어입니다.");
         }
@@ -127,6 +126,7 @@ public class ContactController {
         contact.setName(paramMap.get("name"));
         contact.setPosition(paramMap.get("position"));
         contact.setTel(paramMap.get("tel"));
+        changed = true;
         out.println("변경 하였습니다.");
         return;
       } 
@@ -197,6 +197,7 @@ public class ContactController {
       Contact contact = list.get(i);
       if (contact.getEmail().equals(kv[1])) {
         list.remove(i);
+        changed = true;
         out.println("해당 데이터 삭제 완료하였습니다.");
         break;
       }
