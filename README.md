@@ -1,3 +1,16 @@
+# v1.7
+####구현할 기능:
+- EduAppServer.java 코드 정리
+  - static 멤버 대신 instance 멤버로 전환 (EduAppServer.java.01)
+  - 클라이언트의 요청을 처리하는 것을 스레드로 분리(EduAppServer.java.02)
+
+####산출물:
+- EduAppServer.java (변경)
+
+####학습목표:
+- 자바의 다양한 문법을 활용하여 유지보수가 좋은 구조로 코드를 변경할 수 있다.
+
+
 # v1.6
 ####구현할 기능:
 - 클라이언트/서버 구조로 아키텍처를 변경 

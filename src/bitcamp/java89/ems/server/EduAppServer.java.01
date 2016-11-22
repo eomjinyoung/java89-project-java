@@ -1,3 +1,4 @@
+// v01: 스태틱 멤버를 인스턴스 멤버로 전환
 package bitcamp.java89.ems.server;
 
 import java.io.BufferedInputStream;
