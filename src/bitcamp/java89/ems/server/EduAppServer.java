@@ -3,6 +3,8 @@ package bitcamp.java89.ems.server;
 import java.net.ServerSocket;
 import java.util.HashMap;
 
+import bitcamp.java89.ems.server.controller.ContactAddController;
+import bitcamp.java89.ems.server.controller.ContactDeleteController;
 import bitcamp.java89.ems.server.controller.ContactListController;
 import bitcamp.java89.ems.server.controller.ContactViewController;
 
@@ -15,6 +17,8 @@ public class EduAppServer {
     // 클라이언트 요청을 처리할 Command 구현체 준비
     commandMap.put("contact/list", new ContactListController());
     commandMap.put("contact/view", new ContactViewController());
+    commandMap.put("contact/add", new ContactAddController());
+    commandMap.put("contact/delete", new ContactDeleteController());
   }
   
   private void service() throws Exception {

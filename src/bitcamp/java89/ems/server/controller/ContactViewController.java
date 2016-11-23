@@ -15,6 +15,8 @@ public class ContactViewController implements Command {
     contactDao = ContactDao.getInstance();
   }
 
+  //클라이언트에서 보낸 데이터 형식
+  // => view?name=홍길동
   public void service(HashMap<String,String> paramMap, PrintStream out) {
     ArrayList<Contact> list = contactDao.getListByName(paramMap.get("name"));
     for (Contact contact : list) {
