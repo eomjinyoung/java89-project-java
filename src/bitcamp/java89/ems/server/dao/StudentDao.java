@@ -12,9 +12,8 @@ import bitcamp.java89.ems.server.vo.Student;
 public class StudentDao {
   static StudentDao obj;
   
-  private String filename = "student-v1.7.data";
+  private String filename = "student-v1.8.data";
   private ArrayList<Student> list;
-  private boolean changed;
 
   public static StudentDao getInstance() {
     if (obj == null) {
@@ -43,14 +42,14 @@ public class StudentDao {
   
   public void insert(Student student) {
     list.add(student);
-    changed = true;
+    try {this.save();} catch (Exception e) {}
   }
   
   synchronized public void update(Student student) {
     for (int i = 0; i < list.size(); i++) {
       if (list.get(i).getUserId().equals(student.getUserId())) {
         list.set(i, student);
-        changed = true;
+        try {this.save();} catch (Exception e) {}
         return;
       }
     }
@@ -60,7 +59,7 @@ public class StudentDao {
     for (int i = 0; i < list.size(); i++) {
       if (list.get(i).getUserId().equals(userId)) {
         list.remove(i);
-        changed = true;
+        try {this.save();} catch (Exception e) {}
         return;
       }
     }
@@ -75,46 +74,38 @@ public class StudentDao {
     return false;
   }
   
-  public boolean isChanged() {
-    return changed;
-  }
-  
   @SuppressWarnings("unchecked")
   private void load() {
-    FileInputStream in0 = null;
-    ObjectInputStream in = null;
-    
-    try {
-      in0 = new FileInputStream(this.filename);
-      in = new ObjectInputStream(in0);
-
+    try (
+      ObjectInputStream in = new ObjectInputStream(
+                              new FileInputStream(this.filename));) {
       list = (ArrayList<Student>)in.readObject();
-      
+   
     } catch (EOFException e) {
       // 파일을 모두 읽었다.
     } catch (Exception e) {
+      e.printStackTrace();
       System.out.println("학생 데이터 로딩 중 오류 발생!");
       list = new ArrayList<>();
-    } finally {
-      try {
-        in.close();
-        in0.close();
-      } catch (Exception e) {
-        // close하다가 예외 발생하면 무시한다.
-      }
-    }
+    } 
   }
 
   synchronized public void save() throws Exception {
-    FileOutputStream out0 = new FileOutputStream(this.filename);
-    ObjectOutputStream out = new ObjectOutputStream(out0);
-
-    out.writeObject(list);
-    
-    changed = false;
-
-    out.close();
-    out0.close();
+    try (
+      ObjectOutputStream out = new ObjectOutputStream(
+                                new FileOutputStream(this.filename)); ) {
+      out.writeObject(list);
+      
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
 }
+
+
+
+
+
+
+

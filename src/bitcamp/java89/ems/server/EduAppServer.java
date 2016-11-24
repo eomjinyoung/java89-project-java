@@ -8,6 +8,11 @@ import bitcamp.java89.ems.server.controller.ContactDeleteController;
 import bitcamp.java89.ems.server.controller.ContactListController;
 import bitcamp.java89.ems.server.controller.ContactUpdateController;
 import bitcamp.java89.ems.server.controller.ContactViewController;
+import bitcamp.java89.ems.server.controller.StudentAddController;
+import bitcamp.java89.ems.server.controller.StudentDeleteController;
+import bitcamp.java89.ems.server.controller.StudentListController;
+import bitcamp.java89.ems.server.controller.StudentUpdateController;
+import bitcamp.java89.ems.server.controller.StudentViewController;
 
 public class EduAppServer {
   // Command 구현체 보관소
@@ -21,6 +26,11 @@ public class EduAppServer {
     commandMap.put("contact/add", new ContactAddController());
     commandMap.put("contact/delete", new ContactDeleteController());
     commandMap.put("contact/update", new ContactUpdateController());
+    commandMap.put("student/list", new StudentListController());
+    commandMap.put("student/view", new StudentViewController());
+    commandMap.put("student/add", new StudentAddController());
+    commandMap.put("student/delete", new StudentDeleteController());
+    commandMap.put("student/update", new StudentUpdateController());
   }
   
   private void service() throws Exception {

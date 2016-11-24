@@ -72,37 +72,9 @@ public class RequestThread extends Thread {
     }
   }
   
-  private void doMenu() {
-    out.println("[메뉴]");
-    out.println("1. 학생관리");
-    //out.println("2. 강좌관리");
-    //out.println("3. 교재관리");
-    //out.println("4. 강의실관리");
-    out.println("5. 연락처관리");
-    out.println("메뉴 이동은 'go 메뉴번호'를 입력하세요.");
-    out.println("[명령]");
-    out.println("save   데이터 저장");
-    out.println("quit   프로그램 종료");
-  }
-
   private boolean doQuit() {
-    doSave();
     System.out.println("클라이언트 연결 종료!");
     return true;
-  }
-
-  private void doSave() {
-    try {
-      //studentController.save();
-    } catch (Exception e) {
-      System.out.println("학생 정보 저장 중에 오류가 발생했습니다.");
-    }
-    
-    try {
-      //contactController.save();
-    } catch (Exception e) {
-      System.out.println("연락처 정보 저장 중에 오류가 발생했습니다.");
-    }
   }
 }
 
