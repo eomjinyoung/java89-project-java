@@ -6,6 +6,7 @@ import java.util.HashMap;
 import bitcamp.java89.ems.server.controller.ContactAddController;
 import bitcamp.java89.ems.server.controller.ContactDeleteController;
 import bitcamp.java89.ems.server.controller.ContactListController;
+import bitcamp.java89.ems.server.controller.ContactUpdateController;
 import bitcamp.java89.ems.server.controller.ContactViewController;
 
 public class EduAppServer {
@@ -19,6 +20,7 @@ public class EduAppServer {
     commandMap.put("contact/view", new ContactViewController());
     commandMap.put("contact/add", new ContactAddController());
     commandMap.put("contact/delete", new ContactDeleteController());
+    commandMap.put("contact/update", new ContactUpdateController());
   }
   
   private void service() throws Exception {

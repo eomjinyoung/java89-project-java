@@ -13,7 +13,6 @@ public class ContactDao {
   static ContactDao obj;
   private String filename = "contact-v1.7.data";
   private ArrayList<Contact> list;
-  private boolean changed;
   
   public static ContactDao getInstance() {
     if (obj == null) {
@@ -24,10 +23,6 @@ public class ContactDao {
  
   private ContactDao() {
     this.load(); 
-  }
-
-  public boolean isChanged() {
-    return changed;
   }
 
   @SuppressWarnings("unchecked")
@@ -61,8 +56,6 @@ public class ContactDao {
 
     out.writeObject(list);
     
-    changed = false;
-
     out.close();
     out0.close();
   }
@@ -83,14 +76,14 @@ public class ContactDao {
   
   synchronized public void insert(Contact contact) {
     list.add(contact);
-    changed = true;
+    try {this.save();} catch (Exception e) {}
   }
   
   synchronized public void update(Contact contact) {
     for (int i = 0; i < list.size(); i++) {
       if (list.get(i).getEmail().equals(contact.getEmail())) {
         list.set(i, contact);
-        changed = true;
+        try {this.save();} catch (Exception e) {}
         return;
       }
     }
@@ -100,7 +93,7 @@ public class ContactDao {
     for (int i = 0; i < list.size(); i++) {
       if (list.get(i).getEmail().equals(email)) {
         list.remove(i);
-        changed = true;
+        try {this.save();} catch (Exception e) {}
         return;
       }
     }
