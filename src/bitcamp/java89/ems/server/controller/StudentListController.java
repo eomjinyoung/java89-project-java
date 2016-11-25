@@ -9,7 +9,11 @@ import bitcamp.java89.ems.server.dao.StudentDao;
 import bitcamp.java89.ems.server.vo.Student;
 
 public class StudentListController extends AbstractCommand {
-
+  @Override
+  public String getCommandString() {
+    return "student/list";
+  }
+  
   @Override
   protected void doResponse(HashMap<String,String> paramMap, PrintStream out) 
       throws Exception {

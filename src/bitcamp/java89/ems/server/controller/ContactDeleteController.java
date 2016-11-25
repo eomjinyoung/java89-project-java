@@ -7,6 +7,10 @@ import bitcamp.java89.ems.server.AbstractCommand;
 import bitcamp.java89.ems.server.dao.ContactDao;
 
 public class ContactDeleteController extends AbstractCommand {
+  @Override
+  public String getCommandString() {
+    return "contact/delete";
+  }
 
   //클라이언트에서 보낸 데이터 형식
   // => delete?email=hong@test.com

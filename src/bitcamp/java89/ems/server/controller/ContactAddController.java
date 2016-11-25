@@ -8,7 +8,11 @@ import bitcamp.java89.ems.server.dao.ContactDao;
 import bitcamp.java89.ems.server.vo.Contact;
 
 public class ContactAddController extends AbstractCommand {
-
+  @Override
+  public String getCommandString() {
+    return "contact/add";
+  }
+  
   //클라이언트에서 보낸 데이터 형식
   // => add?name=홍길동&position=대리&tel=111-1111&email=hong@test.com
   @Override

@@ -1,7 +1,8 @@
 package bitcamp.java89.ems.server;
 
+import java.io.File;
 import java.net.ServerSocket;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import bitcamp.java89.ems.server.controller.ContactAddController;
@@ -21,17 +22,17 @@ public class EduAppServer {
   HashMap<String,Command> commandMap = new HashMap<>();
   
   public EduAppServer() {
-    // 클라이언트 요청을 처리할 Command 구현체 준비
-    commandMap.put("contact/list", new ContactListController());
-    commandMap.put("contact/view", new ContactViewController());
-    commandMap.put("contact/add", new ContactAddController());
-    commandMap.put("contact/delete", new ContactDeleteController());
-    commandMap.put("contact/update", new ContactUpdateController());
-    commandMap.put("student/list", new StudentListController());
-    commandMap.put("student/view", new StudentViewController());
-    commandMap.put("student/add", new StudentAddController());
-    commandMap.put("student/delete", new StudentDeleteController());
-    commandMap.put("student/update", new StudentUpdateController());
+    // bin 폴더를 뒤져서 AbstractCommand의 서브 클래스를 찾아낸다.
+    ArrayList<Class> classList = new ArrayList<>();
+    ReflectionUtil.getCommandClasses(new File("./bin"), classList);
+    
+    for (Class c : classList) {
+      try {
+        // 클라이언트 요청을 처리할 Command 객체 등록
+        AbstractCommand command = (AbstractCommand)c.newInstance();
+        commandMap.put(command.getCommandString(), command);
+      } catch (Exception e) {}
+    }
   }
   
   private void service() throws Exception {

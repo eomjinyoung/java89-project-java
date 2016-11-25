@@ -4,6 +4,10 @@ import java.io.PrintStream;
 import java.util.HashMap;
 
 public abstract class AbstractCommand implements Command {
+  // 추상 메서드의 힘!
+  // => 서브 클래스에게 메서드의 구현을 강제한다.
+  public abstract String getCommandString();
+  
   // Command의 메서드를 구현한다.
   // 이 메서드에 예외처리 코드를 둔다.
   @Override

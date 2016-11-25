@@ -8,7 +8,11 @@ import bitcamp.java89.ems.server.dao.ContactDao;
 import bitcamp.java89.ems.server.vo.Contact;
 
 public class ContactUpdateController extends AbstractCommand {
-
+  @Override
+  public String getCommandString() {
+    return "contact/update";
+  }
+  
   //클라이언트에서 보낸 데이터 형식
   // => update?name=홍길동&position=대리&tel=111-1111&email=hong@test.com
   // 이메일이 일치하는 사용자를 찾아 나머지 항목의 값을 변경한다.

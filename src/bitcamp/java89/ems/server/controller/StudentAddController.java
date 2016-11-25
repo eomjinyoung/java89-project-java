@@ -8,7 +8,11 @@ import bitcamp.java89.ems.server.dao.StudentDao;
 import bitcamp.java89.ems.server.vo.Student;
 
 public class StudentAddController extends AbstractCommand {
-
+  @Override
+  public String getCommandString() {
+    return "student/add";
+  }
+  
   //add?userId=aaa&password=1111&name=홍길동&tel=1111-1111&email=hong@test.com&working=y&birthYear=1999&school=비트대학
   @Override
   protected void doResponse(HashMap<String,String> paramMap, PrintStream out) 
