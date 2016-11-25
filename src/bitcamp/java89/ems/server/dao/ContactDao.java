@@ -10,13 +10,13 @@ public class ContactDao extends AbstractDao<Contact> {
   public static ContactDao getInstance() throws Exception {
     if (obj == null) {
       obj = new ContactDao();
+      obj.load(); 
     }
     return obj;
   }
  
   private ContactDao() throws Exception {
     super("contact-v1.9.data");
-    this.load(); 
   }
 
   public ArrayList<Contact> getList() {

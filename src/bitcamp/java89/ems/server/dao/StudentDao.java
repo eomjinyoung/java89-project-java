@@ -1,30 +1,23 @@
 package bitcamp.java89.ems.server.dao;
 
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import bitcamp.java89.ems.server.vo.Student;
 
-public class StudentDao {
+public class StudentDao extends AbstractDao<Student> {
   static StudentDao obj;
   
-  private String filename = "student-v1.8.data";
-  private ArrayList<Student> list;
-
-  public static StudentDao getInstance() {
+  public static StudentDao getInstance() throws Exception {
     if (obj == null) {
       obj = new StudentDao();
+      obj.load();
     }
     
     return obj;
   }
   
-  public StudentDao() {
-    this.load(); 
+  public StudentDao() throws Exception {
+    super("student-v1.9.data");
   }
 
   public ArrayList<Student> getList() {
@@ -73,34 +66,6 @@ public class StudentDao {
     }
     return false;
   }
-  
-  @SuppressWarnings("unchecked")
-  private void load() {
-    try (
-      ObjectInputStream in = new ObjectInputStream(
-                              new FileInputStream(this.filename));) {
-      list = (ArrayList<Student>)in.readObject();
-   
-    } catch (EOFException e) {
-      // 파일을 모두 읽었다.
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("학생 데이터 로딩 중 오류 발생!");
-      list = new ArrayList<>();
-    } 
-  }
-
-  synchronized public void save() throws Exception {
-    try (
-      ObjectOutputStream out = new ObjectOutputStream(
-                                new FileOutputStream(this.filename)); ) {
-      out.writeObject(list);
-      
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
 }
 
 
