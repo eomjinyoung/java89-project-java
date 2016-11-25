@@ -1,3 +1,14 @@
+# v1.9
+####구현할 기능 및 산출물:
+상속(Generalization) 기법 적용
+- AbstractDao.java (추가)
+  - ContactDao와 StudentDao의 공통 멤버를 추출하여 상위 클래스 정의
+
+####학습목표:
+- 상속의 generalization을 이해하고 적용할 수 있다.
+- 추상 클래스를 적용할 수 있다.
+
+
 # v1.8
 ####구현할 기능 및 산출물:
 command 패턴 적용 
