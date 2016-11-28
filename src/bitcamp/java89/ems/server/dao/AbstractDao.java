@@ -12,13 +12,13 @@ public abstract class AbstractDao<T> {
   private String filename;
   protected ArrayList<T> list;
 
-  public AbstractDao(String filename) {
-    //super();
+  // 파일명을 객체 생성 후 외부에서 주입 받는다.
+  public void setFilename(String filename) {
     this.filename = filename;
   }
 
   @SuppressWarnings("unchecked")
-  protected void load() throws Exception {
+  public void load() throws Exception {
     try (
         ObjectInputStream in = new ObjectInputStream(
                                 new FileInputStream(this.filename));) {
@@ -28,7 +28,7 @@ public abstract class AbstractDao<T> {
       // 파일을 모두 읽었다.
     } catch (Exception e) {
       list = new ArrayList<T>();
-      throw new Exception("연락처 데이터 로딩 중 오류 발생!");
+      throw new Exception("데이터 로딩 중 오류 발생!");
     }
   }
 
