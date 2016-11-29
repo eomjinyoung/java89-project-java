@@ -3,13 +3,13 @@ package bitcamp.java89.ems.server.controller;
 import java.io.PrintStream;
 import java.util.HashMap;
 
-import bitcamp.java89.ems.server.AbstractCommand;
 import bitcamp.java89.ems.server.annotation.Component;
+import bitcamp.java89.ems.server.annotation.RequestMapping;
 import bitcamp.java89.ems.server.dao.ContactDao;
 import bitcamp.java89.ems.server.vo.Contact;
 
 @Component(value="contact/update") // ApplicationContext가 관리하는 클래스임을 표시한다.
-public class ContactUpdateController extends AbstractCommand {
+public class ContactUpdateController {
   // 의존 객체 DAO를 저장할 변수 선언
   ContactDao contactDao;
   
@@ -22,12 +22,9 @@ public class ContactUpdateController extends AbstractCommand {
   // => update?name=홍길동&position=대리&tel=111-1111&email=hong@test.com
   // 이메일이 일치하는 사용자를 찾아 나머지 항목의 값을 변경한다.
   // 단 이메일은 변경할 수 없다.
-  @Override
-  protected void doResponse(HashMap<String,String> paramMap, PrintStream out) 
+  @RequestMapping
+  public void update(HashMap<String,String> paramMap, PrintStream out) 
       throws Exception {
-    // 주입 받은 contactDao를 사용할 것이기 때문에 
-    // 더이상 이 메서드에서 ContactDao 객체를 준비하지 않는다.
-    // => 단 이 메서드가 호출되기 전에 반드시 ContactDao가 주입되어 있어야 한다.
     if (!contactDao.existEmail(paramMap.get("email"))) {
       out.println("이메일을 찾지 못했습니다.");
       return;

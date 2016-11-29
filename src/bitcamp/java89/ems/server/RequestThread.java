@@ -3,10 +3,12 @@ package bitcamp.java89.ems.server;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import bitcamp.java89.ems.server.annotation.RequestMapping;
 import bitcamp.java89.ems.server.context.ApplicationContext;
 
 public class RequestThread extends Thread {
@@ -49,9 +51,9 @@ public class RequestThread extends Thread {
           }
         }
         
-        Command commandHandler = (Command)appContext.getBean(command[0]);
+        Object requestHandler = appContext.getBean(command[0]);
         
-        if (commandHandler == null) {
+        if (requestHandler == null) {
           if (command[0].equals("quit")) {
             doQuit();
             break;
@@ -61,7 +63,17 @@ public class RequestThread extends Thread {
         } 
         
         // 클라이언트가 보낸 명령을 처리할 객체가 있다면, 작업을 실행한다.
-        commandHandler.service(paramMap, out);
+        try {
+          // 1) @RequestMapping이 붙은 메서드를 찾는다.
+          Method m = findRequestMappingMethod(requestHandler.getClass());
+          
+          // 2) 찾은 메서드를 호출한다. 호출할 때 파라미터 값 2개를 넘긴다.
+          m.invoke(requestHandler, paramMap, out);
+          
+        } catch (Exception e) {
+          out.println("작업 중 오류가 발생했습니다.");
+          e.printStackTrace();
+        }
         
       } // while
       
@@ -74,6 +86,18 @@ public class RequestThread extends Thread {
     }
   }
   
+  private Method findRequestMappingMethod(Class<?> clazz) throws Exception {
+    Method[] methods = clazz.getMethods();
+    
+    for (Method m : methods) {
+      RequestMapping anno = m.getAnnotation(RequestMapping.class);
+      if (anno != null) {
+        return m;
+      }
+    }
+    throw new Exception("요청을 처리할 메서드가 없습니다.");
+  }
+
   private boolean doQuit() {
     System.out.println("클라이언트 연결 종료!");
     return true;
