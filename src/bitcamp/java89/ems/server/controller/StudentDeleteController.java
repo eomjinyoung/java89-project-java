@@ -4,8 +4,10 @@ import java.io.PrintStream;
 import java.util.HashMap;
 
 import bitcamp.java89.ems.server.AbstractCommand;
+import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.dao.StudentDao;
 
+@Component(value="student/delete") // ApplicationContext가 관리하는 대상 클래스임을 태깅한다.
 public class StudentDeleteController extends AbstractCommand {
   // 의존 객체 DAO를 저장할 변수 선언
   StudentDao studentDao;
@@ -14,11 +16,6 @@ public class StudentDeleteController extends AbstractCommand {
   public void setStudentDao(StudentDao studentDao) {
     this.studentDao = studentDao;
   } 
-  
-  @Override
-  public String getCommandString() {
-    return "student/delete";
-  }
   
   //delete?userId=aaa
   @Override

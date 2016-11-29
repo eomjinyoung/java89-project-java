@@ -1,3 +1,20 @@
+# v2.5
+####구현할 기능 및 산출물:
+애노테이션을 이용하여 객체 생성을 관리한다.
+- Component.java 애노테이션을 정의한다.
+- ApplicationContext가 관리하는 대상 클래스에 대해 Component 애노케이션을 적용한다.
+  - DAO에 적용
+  - Controller에 적용. 단 Controller의 명령 문자열을 애노테이션에 등록한다.
+    그리고 getCommandString() 메서드를 없앤다.
+- AbstractCommand.java (변경)
+  - getCommandString() 추상 메서드 제거
+- ApplicationContext.java (변경)
+  - @Component 가 붙은 클래스에 대해서만 객체를 생성한다.
+    
+####학습목표:
+- 애노테이션의 용도를 이해한다.
+- 애노테이션을 정의하고 적용할 수 있다. 
+
 # v2.4
 ####구현할 기능 및 산출물:
 빈 컨테이너 도입 : DAO, Controller 객체 관리를 자동화시킨다. 

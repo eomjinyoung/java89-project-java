@@ -2,8 +2,10 @@ package bitcamp.java89.ems.server.dao;
 
 import java.util.ArrayList;
 
+import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.vo.Contact;
 
+@Component // ApplicationContext가 관리하는 클래스임을 표시하기 위해 태그를 단다.
 public class ContactDao extends AbstractDao<Contact> {
 
   public ContactDao() {
