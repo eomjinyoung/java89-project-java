@@ -28,6 +28,11 @@ public class ApplicationContext {
   public Object getBean(String name) {
     return objPool.get(name);
   }
+  
+  // 이 보관소에 저장된 모든 객체를 리턴한다.
+  public Collection<Object> getAllBeans() {
+    return objPool.values();
+  }
 
   private void injectDependencies() {
     // HashMap에 저장된 객체 목록을 뽑아 온다.
