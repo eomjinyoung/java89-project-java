@@ -22,14 +22,16 @@ public class ApplicationContext {
     prepareObjects(classList);
     injectDependencies();
   }
+  
+  public Object getBean(String name) {
+    return objPool.get(name);
+  }
 
   private void injectDependencies() {
     // HashMap에 저장된 객체 목록을 뽑아 온다.
     Collection<Object> objects = objPool.values();
     
     for (Object obj : objects) {
-      System.out.println(obj.getClass().getName());
-      
       // 각 객체의 public 메서드 목록을 뽑는다.
       Method[] methods = obj.getClass().getMethods();
       
@@ -50,7 +52,6 @@ public class ApplicationContext {
         
         if (dependency != null) { // 찾았다면, 
           try {
-            System.out.println("==>" + m.getName());
             m.invoke(obj, dependency); // 의존 객체를 주입하기 위해 셋터를 호출한다.
           } catch (Exception e) {}
         }
@@ -157,12 +158,14 @@ public class ApplicationContext {
     return false;
   }
   
+  /*
   public static void main(String[] args) throws Exception {
     ApplicationContext appContext = new ApplicationContext(new String[]{
         "bitcamp.java89.ems.server.controller", 
         "bitcamp.java89.ems.server.dao"});
     
   }
+  */
 }
 
 

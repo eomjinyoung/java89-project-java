@@ -3,7 +3,14 @@
 빈 컨테이너 도입 : DAO, Controller 객체 관리를 자동화시킨다. 
 - EduAppServer 클래스로부터 객체 관리 기능을 별도의 클래스로 분리한다.
   - ApplicationContext.java (생성)
-  
+  - ReflectionUtil 클래스와 ApplicationContext 클래스의 기능을 합친다.
+  - ReflectionUtil.java (제거)
+  - StudentDao, ContactDao 클래스 변경
+    - 생성자 호출 시 load() 메서드를 호출하도록 바꾼다.
+- EduAppServer 클래스는 ApplicationContext 클래스를 사용하여 객체를 다룬다.
+  - EduAppServer.java (변경)
+  - RequestThread.java (변경)
+    
 ####학습목표:
 - 빈 컨테이너의 목적을 이해한다.
 - 빈 컨테이너의 내부 구동 원리를 이해한다.
