@@ -13,10 +13,16 @@
   - 메서드와 인스턴스를 보관한다.
 - EduAppServer.java (변경)
   - 객체 준비 뿐만 아니라 명령어를 처리할 메서드 연결 정보를 생성한다.
-   
+- RequestThread.java (변경)
+  - RequestHandlerMapping을 이용하여 명령어를 찾는다.
+  - RequestHandler를 이용하여 메서드를 호출한다.  
   
 ####학습목표:
-- 메서드에 애노테이션을 붙여 활용하는 방법을 익힌다. 
+- 애노테이션 활용법을 익힌다.
+- HashMap 활용법을 익힌다.
+- 중첩 클래스 활용법을 익힌다.
+- Reflection API 활용법을 익힌다.
+ 
 
 
 # v2.6
