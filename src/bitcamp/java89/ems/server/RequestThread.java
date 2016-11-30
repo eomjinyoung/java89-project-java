@@ -3,10 +3,12 @@ package bitcamp.java89.ems.server;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Parameter;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import bitcamp.java89.ems.server.annotation.RequestParam;
 import bitcamp.java89.ems.server.context.RequestHandlerMapping;
 import bitcamp.java89.ems.server.context.RequestHandlerMapping.RequestHandler;
 
@@ -40,13 +42,13 @@ public class RequestThread extends Thread {
         // 클라이언트가 보낸 명령문을 분석하여 명령어와 파라미터로 분리한다.
         String[] command = in.nextLine().split("\\?");
         
-        HashMap<String,String> paramMap = new HashMap<>();
+        HashMap<String,String> dataMap = new HashMap<>();
         // 파라미터 문자열이 있다면, 이 문자열을 분석하여 HashMap에 보관한다.
         if (command.length == 2) {
           String[] params = command[1].split("&");
           for (String value : params) {
             String[] kv = value.split("=");
-            paramMap.put(kv[0], kv[1]);
+            dataMap.put(kv[0], kv[1]);
           }
         }
         
@@ -63,7 +65,31 @@ public class RequestThread extends Thread {
         
         // 클라이언트가 보낸 명령을 처리할 객체가 있다면, 작업을 실행한다.
         try {
-          requestHandler.method.invoke(requestHandler.obj, paramMap, out);
+          // 호출할 메서드의 파라미터 정보를 추출한다.
+          Parameter[] params = requestHandler.method.getParameters();
+          
+          // 파라미터 값을 저장할 배열을 준비한다. 
+          Object[] args = new Object[params.length];
+          
+          // 파라미터 정보를 꺼내서 그에 맞는 값을 준비한다.
+          for (int i = 0; i < params.length; i++) {
+            // 파라미터에 @RequestParam 이라는 애노테이션이 붙은 경우
+            RequestParam anno = params[i].getAnnotation(RequestParam.class);
+            if (anno != null) {
+              String value = anno.value();
+              args[i] = dataMap.get(value);
+            } else {
+              if (params[i].getType() == PrintStream.class) {
+                args[i] = out;
+              } else if (params[i].getType() == HashMap.class) {
+                args[i] = dataMap;
+              } else {
+                args[i] = null;
+              }
+            }
+          }
+          
+          requestHandler.method.invoke(requestHandler.obj, args);
 
         } catch (Exception e) {
           out.println("작업 중 오류가 발생했습니다.");

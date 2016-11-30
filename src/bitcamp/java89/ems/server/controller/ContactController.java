@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.annotation.RequestMapping;
+import bitcamp.java89.ems.server.annotation.RequestParam;
 import bitcamp.java89.ems.server.dao.ContactDao;
 import bitcamp.java89.ems.server.vo.Contact;
 
@@ -53,7 +54,7 @@ public class ContactController {
   }
   
   @RequestMapping(value="contact/list")
-  public void list(HashMap<String,String> paramMap, PrintStream out) 
+  public void list(PrintStream out) 
       throws Exception {
     ArrayList<Contact> list = contactDao.getList();
     for (Contact contact : list) {
@@ -90,9 +91,9 @@ public class ContactController {
   //클라이언트에서 보낸 데이터 형식
   // => view?name=홍길동
   @RequestMapping(value="contact/view")
-  public void view(HashMap<String,String> paramMap, PrintStream out) 
+  public void view(@RequestParam("name") String name, PrintStream out) 
       throws Exception {
-    ArrayList<Contact> list = contactDao.getListByName(paramMap.get("name"));
+    ArrayList<Contact> list = contactDao.getListByName(name);
     for (Contact contact : list) {
       out.println("--------------------------");
       out.printf("이름: %s\n", contact.getName());

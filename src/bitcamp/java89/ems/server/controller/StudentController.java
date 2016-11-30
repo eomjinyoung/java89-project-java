@@ -56,7 +56,7 @@ public class StudentController {
   }
   
   @RequestMapping(value="student/list")
-  public void list(HashMap<String,String> paramMap, PrintStream out) 
+  public void list(PrintStream out) 
       throws Exception {
     ArrayList<Student> list = studentDao.getList();
     for (Student student : list) {
