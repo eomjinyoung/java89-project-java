@@ -2,7 +2,6 @@ package bitcamp.java89.ems.server.controller;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.annotation.RequestMapping;
@@ -18,7 +17,7 @@ public class HelloController {
   }
   
   @RequestMapping(value="hello2")
-  public void hello2(HashMap<String, String> paramMap, PrintStream out) throws Exception {
+  public void hello2(PrintStream out) throws Exception {
     ArrayList<Student> list = studentDao.getList();
     for (Student s : list) {
       out.println(s.getName());
@@ -26,7 +25,7 @@ public class HelloController {
   }
   
   @RequestMapping(value="hello")
-  public void hello(HashMap<String, String> paramMap, PrintStream out) throws Exception {
+  public void hello(PrintStream out) throws Exception {
     out.println("오호라....");
   }
 }
