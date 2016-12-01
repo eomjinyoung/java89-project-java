@@ -1,4 +1,4 @@
-package bitcamp.java89.ems.server.dao;
+package bitcamp.java89.ems.server.dao.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,10 +7,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import bitcamp.java89.ems.server.annotation.Component;
+import bitcamp.java89.ems.server.dao.ContactDao;
 import bitcamp.java89.ems.server.vo.Contact;
 
 @Component // ApplicationContext가 관리하는 클래스임을 표시하기 위해 태그를 단다.
-public class ContactMysqlDao {
+public class ContactMysqlDao implements ContactDao {
 
   public ContactMysqlDao() {
   }

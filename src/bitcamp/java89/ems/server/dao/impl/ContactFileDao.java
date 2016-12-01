@@ -1,10 +1,12 @@
-package bitcamp.java89.ems.server.dao;
+package bitcamp.java89.ems.server.dao.impl;
 
 import java.util.ArrayList;
 
+import bitcamp.java89.ems.server.dao.ContactDao;
 import bitcamp.java89.ems.server.vo.Contact;
 
-public class ContactFileDao extends AbstractDao<Contact> {
+public class ContactFileDao extends AbstractFileDao<Contact> 
+                            implements ContactDao {
 
   public ArrayList<Contact> getList() {
     return this.list;

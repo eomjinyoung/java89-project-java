@@ -6,9 +6,9 @@ import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.vo.Student;
 
 @Component // ApplicationContext가 관리하는 클래스임을 표시하기 위해 태그를 단다.
-public class StudentDao extends AbstractDao<Student> {
+public class StudentFileDao extends AbstractFileDao<Student> {
 
-  public StudentDao() {
+  public StudentFileDao() {
     this.setFilename("student-v1.9.data");
     try {this.load();} catch (Exception e) {}
   }

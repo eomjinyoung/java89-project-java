@@ -1,4 +1,4 @@
-package bitcamp.java89.ems.server.dao;
+package bitcamp.java89.ems.server.dao.impl;
 
 import java.io.EOFException;
 import java.io.FileInputStream;
@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public abstract class AbstractDao<T> {
+public abstract class AbstractFileDao<T> {
 
   private String filename;
   protected ArrayList<T> list;

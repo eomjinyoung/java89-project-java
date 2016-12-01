@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.annotation.RequestMapping;
 import bitcamp.java89.ems.server.annotation.RequestParam;
-import bitcamp.java89.ems.server.dao.StudentDao;
+import bitcamp.java89.ems.server.dao.StudentFileDao;
 import bitcamp.java89.ems.server.vo.Student;
 
 @Component // ApplicationContext가 관리하는 대상 클래스임을 태깅한다.
 public class StudentController {
   // 의존 객체 DAO를 저장할 변수 선언
-  StudentDao studentDao;
+  StudentFileDao studentDao;
   
   // 의존 객체 주입할 때 호출할 셋터 추가
-  public void setStudentDao(StudentDao studentDao) {
+  public void setStudentDao(StudentFileDao studentDao) {
     this.studentDao = studentDao;
   } 
   
