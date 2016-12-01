@@ -3,10 +3,12 @@ package bitcamp.java89.ems.server.dao.impl;
 import java.util.ArrayList;
 
 import bitcamp.java89.ems.server.annotation.Component;
+import bitcamp.java89.ems.server.dao.StudentDao;
 import bitcamp.java89.ems.server.vo.Student;
 
-@Component // ApplicationContext가 관리하는 클래스임을 표시하기 위해 태그를 단다.
-public class StudentFileDao extends AbstractFileDao<Student> {
+//@Component // ApplicationContext가 관리하는 클래스임을 표시하기 위해 태그를 단다.
+public class StudentFileDao extends AbstractFileDao<Student> 
+                            implements StudentDao {
 
   public StudentFileDao() {
     this.setFilename("student-v1.9.data");

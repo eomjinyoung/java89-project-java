@@ -64,7 +64,7 @@ public class ContactMysqlDao implements ContactDao {
     return list;
   }
   
-  synchronized public void insert(Contact contact) throws Exception {
+  public void insert(Contact contact) throws Exception {
     Class.forName("com.mysql.jdbc.Driver");
     try (
       Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
@@ -81,7 +81,7 @@ public class ContactMysqlDao implements ContactDao {
     } 
   }
   
-  synchronized public void update(Contact contact) throws Exception {
+  public void update(Contact contact) throws Exception {
     Class.forName("com.mysql.jdbc.Driver");
     try (
       Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
@@ -98,7 +98,7 @@ public class ContactMysqlDao implements ContactDao {
     } 
   }
   
-  synchronized public void delete(String email) throws Exception {
+  public void delete(String email) throws Exception {
     Class.forName("com.mysql.jdbc.Driver");
     try (
       Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
