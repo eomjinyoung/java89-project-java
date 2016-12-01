@@ -2,9 +2,11 @@ package bitcamp.java89.ems.server.dao.impl;
 
 import java.util.ArrayList;
 
+import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.dao.ContactDao;
 import bitcamp.java89.ems.server.vo.Contact;
 
+//@Component
 public class ContactFileDao extends AbstractFileDao<Contact> 
                             implements ContactDao {
 

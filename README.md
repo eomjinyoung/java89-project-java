@@ -13,13 +13,14 @@ DBMS를 이용하여 데이터를 관리한다.
   - ContactDao.java 인터페이스 생성: 컨트롤러와 DAO 사이의 호출 규칙을 정의.
   - ContactFileDao.java는 이 인터페이스를 구현한다.
   - ContactMySQLDao.java(생성)는 이 인터페이스를 구현한다.
-- 클래스 관리를 효율적으로 하기 위해
-  - dao 패키지 아래에 impl 패키지를 생성한다.
+- 클래스 관리를 효율적으로 하기 위해 impl 패키지를 생성한다.
+  - dao/impl 패키지를 생성 
   - impl 패키지 아래에 ContactDao 인터페이스를 구현한 클래스를 둔다. 
 - Controller 변경
   - Controller가 의지하는 Dao를 가리킬 때 클래스 이름 대신 인터페이스를 사용한다.
   - ContactController.java (변경)
-   
+- 사용할 DAO에만 @Component를 붙인다.
+  - @Component가 붙지 않은 클래스는 객체를 만들지 않기 때문이다.   
 ####학습목표:
 - JDBC 프로그래밍을 익힌다.
 
