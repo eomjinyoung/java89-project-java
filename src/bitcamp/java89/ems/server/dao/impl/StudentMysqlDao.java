@@ -79,7 +79,7 @@ public class StudentMysqlDao extends AbstractFileDao<Student>
       Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
           "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
-          "insert into ex_studentss(uid,pwd,name,tel,email,work,byear,schl) "
+          "insert into ex_students(uid,pwd,name,tel,email,work,byear,schl) "
           + " values(?,?,?,?,?,?,?,?)"); ) {
       
       stmt.setString(1, student.getUserId());
