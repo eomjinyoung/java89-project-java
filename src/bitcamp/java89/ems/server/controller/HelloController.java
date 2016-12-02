@@ -3,18 +3,16 @@ package bitcamp.java89.ems.server.controller;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import bitcamp.java89.ems.server.annotation.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import bitcamp.java89.ems.server.annotation.RequestMapping;
-import bitcamp.java89.ems.server.dao.impl.StudentFileDao;
+import bitcamp.java89.ems.server.dao.StudentDao;
 import bitcamp.java89.ems.server.vo.Student;
 
 @Component // ApplicationContext가 관리하는 대상 클래스임을 태깅한다.
 public class HelloController {
-  StudentFileDao studentDao;
-  
-  public void setStudentDao(StudentFileDao studentDao) {
-    this.studentDao = studentDao;
-  }
+  @Autowired StudentDao studentDao;
   
   @RequestMapping(value="hello2")
   public void hello2(PrintStream out) throws Exception {

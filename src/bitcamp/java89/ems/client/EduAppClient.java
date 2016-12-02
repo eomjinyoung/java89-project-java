@@ -31,8 +31,7 @@ public class EduAppClient {
         }
         
         // 사용자로부터 명령을 입력 받아 출력한다.
-        //String command = keyScan.nextLine();
-        String command = "contact/list";
+        String command = keyScan.nextLine();
         out.println(command);
         
         if (command.toLowerCase().equals("quit")) {

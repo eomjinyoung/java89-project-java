@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <!-- 스프링 IoC 컨테이너가 클래스를 찾는 위치를 지정한다. 
+       => 이 패키지와 하위 패키지를 모두 뒤져서 @Component 애노테이션이 붙은 
+          클래스를 찾아 인스턴스를 생성한다.
+  -->
+  <context:component-scan base-package="bitcamp.java89.ems.server"/>
+
+</beans>
