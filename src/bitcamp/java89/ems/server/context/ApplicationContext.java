@@ -13,6 +13,8 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import bitcamp.java89.ems.server.annotation.Component;
 
@@ -20,11 +22,22 @@ public class ApplicationContext {
   HashMap<String,Object> objPool = new HashMap<>();
   
   public ApplicationContext(String[] packages) {
+    this(packages, null);
+  }
+  
+  public ApplicationContext(String[] packages, HashMap<String, Object> builtInObjMap) {
+    if (builtInObjMap != null) {
+      // 외부에서 넘겨준 객체를 포함시킨다.
+      Set<Entry<String,Object>> entrySet = builtInObjMap.entrySet();
+      for (Entry<String,Object> entry : entrySet) {
+        objPool.put(entry.getKey(), entry.getValue());
+      }
+    }
     ArrayList<Class<?>> classList = getClassList(packages);
     prepareObjects(classList);
     injectDependencies();
   }
-  
+
   public Object getBean(String name) {
     return objPool.get(name);
   }

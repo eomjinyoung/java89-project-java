@@ -1,7 +1,6 @@
 package bitcamp.java89.ems.server.dao.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -14,14 +13,9 @@ import bitcamp.java89.ems.server.vo.Student;
 public class StudentMysqlDao implements StudentDao {
   Connection con;
   
-  public StudentMysqlDao() {
-    try {
-      Class.forName("com.mysql.jdbc.Driver");
-      con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  // Connection 객체를 외부에서 주입 받는다.
+  public void setConnection(Connection con) {
+    this.con = con;
   }
   
   public ArrayList<Student> getList() throws Exception {
