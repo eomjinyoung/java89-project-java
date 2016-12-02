@@ -7,19 +7,20 @@ import java.util.ArrayList;
 
 import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.dao.StudentDao;
+import bitcamp.java89.ems.server.util.DataSource;
 import bitcamp.java89.ems.server.vo.Student;
 
 @Component // ApplicationContext가 관리하는 클래스임을 표시하기 위해 태그를 단다.
 public class StudentMysqlDao implements StudentDao {
-  Connection con;
+  DataSource ds;
   
-  // Connection 객체를 외부에서 주입 받는다.
-  public void setConnection(Connection con) {
-    this.con = con;
+  public void setDataSource(DataSource dataSource) {
+    this.ds = dataSource;
   }
   
   public ArrayList<Student> getList() throws Exception {
     ArrayList<Student> list = new ArrayList<>();
+    Connection con = ds.getConnection(); // 커넥션풀에서 한 개의 Connection 객체를 임대한다.
     try (
       PreparedStatement stmt = con.prepareStatement(
           "select uid, pwd, name, tel, email, work, byear, schl from ex_students");
@@ -37,11 +38,14 @@ public class StudentMysqlDao implements StudentDao {
         student.setSchool(rs.getString("schl"));
         list.add(student);
       }
+    } finally {
+      ds.returnConnection(con);
     }
     return list;
   }
   
   public Student getOne(String userId) throws Exception {
+    Connection con = ds.getConnection(); // 커넥션풀에서 한 개의 Connection 객체를 임대한다.
     try (
       PreparedStatement stmt = con.prepareStatement(
           "select uid, pwd, name, tel, email, work, byear, schl "
@@ -68,10 +72,13 @@ public class StudentMysqlDao implements StudentDao {
         rs.close();
         return null;
       }
+    } finally {
+      ds.returnConnection(con);
     }
   }
   
   public void insert(Student student) throws Exception {
+    Connection con = ds.getConnection(); // 커넥션풀에서 한 개의 Connection 객체를 임대한다.
     try (
       PreparedStatement stmt = con.prepareStatement(
           "insert into ex_students(uid,pwd,name,tel,email,work,byear,schl) "
@@ -87,10 +94,13 @@ public class StudentMysqlDao implements StudentDao {
       stmt.setString(8, student.getSchool());
       
       stmt.executeUpdate();
-    } 
+    } finally {
+      ds.returnConnection(con);
+    }
   }
   
   public void update(Student student) throws Exception {
+    Connection con = ds.getConnection(); // 커넥션풀에서 한 개의 Connection 객체를 임대한다.
     try (
       PreparedStatement stmt = con.prepareStatement(
           "update ex_students set "
@@ -107,10 +117,13 @@ public class StudentMysqlDao implements StudentDao {
       stmt.setString(8, student.getUserId());
       
       stmt.executeUpdate();
-    } 
+    } finally {
+      ds.returnConnection(con);
+    }
   }
   
   public void delete(String userId) throws Exception {
+    Connection con = ds.getConnection(); // 커넥션풀에서 한 개의 Connection 객체를 임대한다.
     try (
       PreparedStatement stmt = con.prepareStatement(
           "delete from ex_students where uid=?"); ) {
@@ -118,10 +131,13 @@ public class StudentMysqlDao implements StudentDao {
       stmt.setString(1, userId);
       
       stmt.executeUpdate();
-    } 
+    } finally {
+      ds.returnConnection(con);
+    }
   }
   
   public boolean existUserId(String userId) throws Exception {
+    Connection con = ds.getConnection(); // 커넥션풀에서 한 개의 Connection 객체를 임대한다.
     try (
       PreparedStatement stmt = con.prepareStatement(
           "select * from ex_students where uid=?"); ) {
@@ -136,6 +152,8 @@ public class StudentMysqlDao implements StudentDao {
         rs.close();
         return false;
       }
+    } finally {
+      ds.returnConnection(con);
     }
   }
 }

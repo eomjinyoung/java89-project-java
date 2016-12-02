@@ -14,24 +14,8 @@ public class EduAppServer {
   RequestHandlerMapping handlerMapping;
   
   public EduAppServer() {
-    // ApplicationContext가 만들지 못하는 객체를 여기에서 미리 생성하여 
-    // ApplicationContext에게 전달한다.
-    HashMap<String,Object> builtInObjMap = new HashMap<>();
-    
-    try {
-      Class.forName("com.mysql.jdbc.Driver");
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
-      builtInObjMap.put("dbcon", con);
-      
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    
     // 지정된 패키지의 클래스들을 조사하여 객체를 생성한다.
-    appContext = new ApplicationContext(new String[]{
-        "bitcamp.java89.ems.server.controller", 
-        "bitcamp.java89.ems.server.dao"}, builtInObjMap);
+    appContext = new ApplicationContext(new String[]{"bitcamp.java89.ems.server"});
     
     // 객체를 조사하여 @RequestMapping이 붙은 메서드를 따로 관리한다.
     handlerMapping = new RequestHandlerMapping(appContext.getAllBeans());
