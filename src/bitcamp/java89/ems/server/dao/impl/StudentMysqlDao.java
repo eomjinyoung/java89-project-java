@@ -11,15 +11,22 @@ import bitcamp.java89.ems.server.dao.StudentDao;
 import bitcamp.java89.ems.server.vo.Student;
 
 @Component // ApplicationContext가 관리하는 클래스임을 표시하기 위해 태그를 단다.
-public class StudentMysqlDao extends AbstractFileDao<Student> 
-                            implements StudentDao {
-
+public class StudentMysqlDao implements StudentDao {
+  Connection con;
+  
+  public StudentMysqlDao() {
+    try {
+      Class.forName("com.mysql.jdbc.Driver");
+      con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
+          "java89", "1111");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  
   public ArrayList<Student> getList() throws Exception {
     ArrayList<Student> list = new ArrayList<>();
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
           "select uid, pwd, name, tel, email, work, byear, schl from ex_students");
       ResultSet rs = stmt.executeQuery(); ){
@@ -41,10 +48,7 @@ public class StudentMysqlDao extends AbstractFileDao<Student>
   }
   
   public Student getOne(String userId) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
           "select uid, pwd, name, tel, email, work, byear, schl "
           + " from ex_students"
@@ -74,10 +78,7 @@ public class StudentMysqlDao extends AbstractFileDao<Student>
   }
   
   public void insert(Student student) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
           "insert into ex_students(uid,pwd,name,tel,email,work,byear,schl) "
           + " values(?,?,?,?,?,?,?,?)"); ) {
@@ -96,10 +97,7 @@ public class StudentMysqlDao extends AbstractFileDao<Student>
   }
   
   public void update(Student student) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
           "update ex_students set "
           + " pwd=?,name=?,tel=?,email=?,work=?,byear=?,schl=?"
@@ -119,10 +117,7 @@ public class StudentMysqlDao extends AbstractFileDao<Student>
   }
   
   public void delete(String userId) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
           "delete from ex_students where uid=?"); ) {
       
@@ -133,10 +128,7 @@ public class StudentMysqlDao extends AbstractFileDao<Student>
   }
   
   public boolean existUserId(String userId) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
           "select * from ex_students where uid=?"); ) {
       
